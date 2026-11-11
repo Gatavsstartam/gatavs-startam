@@ -1,0 +1,1338 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Gatavs Startam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sacensību numura kartīte ar atpakaļskaitīšanu, cilnes, viens darba skats katrai cilnei */
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#101828; --muted:#5B6578; --line:#DCE1E9; --soft:#EEF1F6;
+  --accent:#D3382C; --accent-ink:#FFFFFF; --accent-soft:#FBE7E4;
+  --swim:#2563C9; --bike:#D9822B; --run:#2F8F4E; --str:#7457B5; --race:#D3382C; --rest:#8A93A5;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D121C; --surface:#151C29; --ink:#E7ECF4; --muted:#9BA6BA; --line:#273246; --soft:#1B2433;
+  --accent:#FF6B5B; --accent-ink:#1A0B09; --accent-soft:#3A1C19;
+  --swim:#6FA3F2; --bike:#F2A65A; --run:#6CCB8A; --str:#AE95EA; --race:#FF6B5B; --rest:#8F9AAE; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0D121C; --surface:#151C29; --ink:#E7ECF4; --muted:#9BA6BA; --line:#273246; --soft:#1B2433;
+  --accent:#FF6B5B; --accent-ink:#1A0B09; --accent-soft:#3A1C19;
+  --swim:#6FA3F2; --bike:#F2A65A; --run:#6CCB8A; --str:#AE95EA; --race:#FF6B5B; --rest:#8F9AAE; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
+h3{font-size:18px;font-weight:600}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+/* bib */
+.bib{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:1fr auto}
+.bib-main{padding:18px 20px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.bib-main h1{font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.02em}
+.bib-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;color:var(--muted)}
+.bib-num{background:var(--accent);color:var(--accent-ink);padding:18px 20px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
+.bib-num .cd{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,3.6vw,30px);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bib-num .eyebrow{color:inherit;opacity:.85}
+@media (max-width:640px){.bib{grid-template-columns:1fr}}
+.banner{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:6px;padding:10px 14px;font-size:14.5px}
+.banner a{color:var(--ink);font-weight:600}
+/* tabs */
+nav.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line)}
+nav.tabs a{font-family:var(--f-display);font-weight:600;font-size:15px;padding:10px 12px;color:var(--muted);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.view{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.chip{display:inline-block;font-family:var(--f-mono);font-size:12px;padding:3px 9px;border-radius:99px;background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+.chip.rec{background:var(--accent-soft);border-color:transparent}
+.btn{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+select,input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+/* sessions */
+.sess{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--rest);border-radius:8px;padding:12px 14px}
+.sess.swim{border-left-color:var(--swim)} .sess.bike{border-left-color:var(--bike)} .sess.run{border-left-color:var(--run)} .sess.str{border-left-color:var(--str)} .sess.race{border-left-color:var(--race)}
+.sess .t{font-family:var(--f-mono);font-variant-numeric:tabular-nums;grid-row:span 2;font-size:14px;color:var(--muted);line-height:1.35}
+.sess .t b{display:block;color:var(--ink);font-size:19px;font-weight:500}
+.sess .h{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.sess .h strong{font-family:var(--f-display);font-size:18px}
+.sess p{grid-column:2;color:var(--muted);font-size:14.5px}
+.c-swim{color:var(--swim)} .c-bike{color:var(--bike)} .c-run{color:var(--run)} .c-str{color:var(--str)} .c-race{color:var(--race)} .c-rest{color:var(--rest)}
+@media (max-width:480px){.sess{grid-template-columns:1fr}.sess .t{grid-row:auto}.sess .t b{display:inline;margin-right:6px}.sess p{grid-column:1}}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.day.today{box-shadow:0 0 0 2px var(--accent)}
+.day .dh{display:flex;justify-content:space-between;align-items:baseline}
+.day .dh h3{font-size:17px}
+.mini{border-left:4px solid var(--rest);padding:2px 0 2px 9px;display:flex;flex-direction:column}
+.mini.swim{border-color:var(--swim)} .mini.bike{border-color:var(--bike)} .mini.run{border-color:var(--run)} .mini.str{border-color:var(--str)} .mini.race{border-color:var(--race)}
+.mini .k{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:14.5px}
+.mini .k span:last-child{font-family:var(--f-mono);font-weight:400;white-space:nowrap;font-size:13px;color:var(--muted)}
+.mini p{font-size:13.5px;color:var(--muted)}
+/* overview chart */
+.bars{display:flex;align-items:flex-end;gap:3px;height:150px;overflow-x:auto;padding-bottom:2px}
+.bar{flex:1 0 10px;min-width:10px;border-radius:3px 3px 0 0;cursor:pointer;border:0;padding:0}
+.bar.p-base{background:var(--swim)} .bar.p-build{background:var(--bike)} .bar.p-spec{background:var(--run)} .bar.p-taper{background:var(--rest)}
+.bar.rec{opacity:.45}
+.bar.cur{outline:2px solid var(--ink);outline-offset:1px}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.ph{border-top:4px solid var(--rest);background:var(--surface);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ph.p-base{border-top-color:var(--swim)} .ph.p-build{border-top-color:var(--bike)} .ph.p-spec{border-top-color:var(--run)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.check li{list-style:none;margin-left:-20px;display:flex;gap:10px}
+.check .when{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);min-width:76px}
+/* form */
+form.prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 16px}
+form.prof label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600}
+form.prof label span{font-weight:400;color:var(--muted);font-size:12.5px}
+fieldset{border:1px solid var(--line);border-radius:10px;padding:14px;margin:0;display:flex;flex-direction:column;gap:12px;background:var(--surface)}
+legend{font-family:var(--f-display);font-weight:600;padding:0 6px}
+.note{font-size:13.5px;color:var(--muted)}
+.status{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.dayck{display:flex;flex-wrap:wrap;gap:8px}
+form.prof .dayck label{flex-direction:row;align-items:center;gap:6px;font-weight:400;border:1px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer;background:var(--bg)}
+form.prof .dayck label:has(input:checked){background:var(--accent-soft);border-color:var(--accent)}
+form.prof label.ck{flex-direction:row;align-items:flex-start;gap:10px;font-weight:400}
+form.prof label.ck input{margin-top:4px}
+#f-race-info a{color:var(--ink)}
+@media (min-width:720px){#lbl-race,#lbl-exrace{grid-column:span 2}}
+.exrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 14px;align-items:end}
+.exrow .btn{justify-self:start}
+.exitem{display:grid;grid-template-columns:auto 1fr auto auto;gap:4px 12px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-left:4px solid var(--race);border-radius:8px;background:var(--bg)}
+.exitem.pB{border-left-color:var(--bike)} .exitem.pC{border-left-color:var(--run)}
+.exitem .when{font-family:var(--f-mono);font-size:13px;color:var(--muted);white-space:nowrap}
+.exitem .nm{min-width:0}
+.exitem .nm small{display:block;color:var(--muted);font-size:12.5px}
+.exitem select{padding:4px 6px;font-size:13px}
+.exitem .warn{grid-column:2/-1;font-size:12.5px;color:var(--accent)}
+.pri{font-family:var(--f-mono);font-size:12px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--soft)}
+@media (max-width:560px){.exitem{grid-template-columns:1fr auto}.exitem .when{grid-column:1/-1}.exitem .warn{grid-column:1/-1}}
+.banner.warn{background:var(--soft);border-left-color:var(--str)}
+</style>
+
+<div class="wrap">
+  <header class="bib" aria-label="Sacensības">
+    <div class="bib-main">
+      <div class="eyebrow" id="b-sport">Sacensības</div>
+      <h1 id="b-title">Gatavs Startam</h1>
+      <div class="bib-meta" id="b-meta"></div>
+    </div>
+    <div class="bib-num">
+      <div class="eyebrow">Līdz startam</div>
+      <div class="cd" id="cd">–</div>
+    </div>
+  </header>
+
+  <p class="banner" id="example-banner" hidden>Šis ir piemērs: olimpiskā triatlona plāns. <a href="#profils">Ievadi savus datus</a>, un plāns, uzturs un kalendārs tiks sarēķināti tev.</p>
+  <div class="banner warn" id="health-banner" hidden></div>
+
+  <nav class="tabs" aria-label="Sadaļas">
+    <a href="#sodien" data-v="sodien">Šodien</a>
+    <a href="#nedela" data-v="nedela">Nedēļa</a>
+    <a href="#parskats" data-v="parskats">Pārskats</a>
+    <a href="#uzturs" data-v="uzturs">Uzturs</a>
+    <a href="#gatavosanas" data-v="gatavosanas">Sagatavošanās</a>
+    <a href="#kalendars" data-v="kalendars">Kalendārs</a>
+    <a href="#profils" data-v="profils">Profils</a>
+  </nav>
+
+  <!-- TODAY -->
+  <section class="view" id="v-sodien" hidden>
+    <div class="row">
+      <div>
+        <div class="eyebrow" id="td-date"></div>
+        <h2 id="td-title">Šodien</h2>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="chip" id="td-phase"></span><span class="chip rec" id="td-rec" hidden>Atjaunošanās nedēļa</span></div>
+    </div>
+    <p class="muted" id="td-meta"></p>
+    <div style="display:flex;flex-direction:column;gap:10px" id="td-list"></div>
+    <div class="card" id="td-fuel"></div>
+    <div><h3 id="td-tom-title" style="margin-bottom:8px">Rīt</h3><div style="display:flex;flex-direction:column;gap:6px" id="td-tom"></div></div>
+  </section>
+
+  <!-- WEEK -->
+  <section class="view" id="v-nedela" hidden>
+    <div class="row">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <h2 id="wk-title">Nedēļa</h2><span class="chip" id="wk-phase"></span><span class="chip rec" id="wk-rec" hidden>Atjaunošanās nedēļa</span>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="btn" id="wk-prev" aria-label="Iepriekšējā nedēļa">←</button>
+        <select id="wk-sel" aria-label="Izvēlies nedēļu"></select>
+        <button class="btn" id="wk-next" aria-label="Nākamā nedēļa">→</button>
+      </div>
+    </div>
+    <p class="muted" id="wk-meta"></p>
+    <div class="legend"><span><i style="background:var(--swim)"></i>Peldēšana</span><span><i style="background:var(--bike)"></i>Velo</span><span><i style="background:var(--run)"></i>Skriešana</span><span><i style="background:var(--str)"></i>Spēks / mobilitāte</span></div>
+    <div class="days" id="wk-days"></div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="view" id="v-parskats" hidden>
+    <h2>Ceļš līdz startam</h2>
+    <p class="muted" id="ov-lead"></p>
+    <div class="card">
+      <h3>Plānotās stundas nedēļā</h3>
+      <div class="bars" id="ov-bars" role="img" aria-label="Plānotās stundas pa nedēļām"></div>
+      <div class="legend"><span><i style="background:var(--swim)"></i>Pamati</span><span><i style="background:var(--bike)"></i>Būvēšana</span><span><i style="background:var(--run)"></i>Specifiskā</span><span><i style="background:var(--rest)"></i>Tapering</span><span>Bālāks stabiņš = atjaunošanās nedēļa · uzklikšķini, lai atvērtu</span></div>
+    </div>
+    <div class="phases" id="ov-phases"></div>
+    <div class="card" id="ov-season" hidden><h3>Sezonas sacensības</h3><div class="tw" style="border:0"><table><thead><tr><th>Datums</th><th>Sacensības</th><th>Prioritāte</th><th>Nedēļa</th><th>Plānā</th></tr></thead><tbody id="ov-season-rows"></tbody></table></div></div>
+    <div class="card">
+      <h3>Zonas</h3>
+      <div class="tw" style="border:0"><table><thead><tr><th>Zona</th><th>Sajūta</th><th>Velo</th><th>Skriešana</th><th>Kam</th></tr></thead><tbody id="ov-zones"></tbody></table></div>
+      <p class="note" id="ov-zones-note"></p>
+    </div>
+  </section>
+
+  <!-- NUTRITION -->
+  <section class="view" id="v-uzturs" hidden>
+    <h2>Uzturs pēc slodzes</h2>
+    <p class="muted" id="nu-lead"></p>
+    <div class="tw"><table><thead><tr><th>Diena</th><th>Piemērs tavā plānā</th><th>Ogļhidrāti</th><th>Olbaltumvielas</th></tr></thead><tbody id="nu-days"></tbody></table></div>
+    <div class="grid2">
+      <div class="card"><h3>Treniņa laikā</h3><ul class="clean">
+        <li>Līdz 75 min: ūdens, ogļhidrāti nav obligāti.</li>
+        <li>75 min – 2,5 h: 30–60 g ogļhidrātu stundā.</li>
+        <li>Ilgāk par 2,5 h: 60–90 g stundā, glikozes un fruktozes maisījums.</li>
+        <li>Šķidrums 500–800 ml stundā, karstumā vairāk; nātrijs 500–1000 mg stundā garos treniņos.</li>
+      </ul></div>
+      <div class="card"><h3>Sacensību diena</h3><ul class="clean" id="nu-race"></ul></div>
+    </div>
+    <p class="note">Vispārīgi ieteikumi, nevis dietologa vai ārsta konsultācija. Ja tev ir veselības problēmas, saskaņo uzturu ar speciālistu.</p>
+  </section>
+
+  <!-- PREP -->
+  <section class="view" id="v-gatavosanas" hidden>
+    <h2>Sagatavošanās</h2>
+    <p class="muted" id="pr-lead"></p>
+    <div class="card"><h3>Laika līnija</h3><ul class="clean check" id="pr-list"></ul></div>
+    <div class="card"><h3>Sacensību vieta</h3><ul class="clean" id="pr-place"></ul></div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="view" id="v-kalendars" hidden>
+    <h2>Kalendārs</h2>
+    <p class="muted">Lejupielādē visus treniņus failā, ko var importēt Google kalendārā (Iestatījumi → Importēšana un eksportēšana). Treniņu laiki nāk no profila.</p>
+    <div class="card">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" id="cal-csv">Lejupielādēt CSV (Google kalendārs)</button>
+        <button class="btn" id="cal-icsf">Lejupielādēt .ics (Apple, Outlook, Google)</button>
+        <button class="btn" id="cal-ics">Kopēt .ics tekstu</button>
+      </div>
+      <p class="status" id="cal-status" aria-live="polite"></p>
+      <p class="note" id="cal-info"></p>
+      <textarea id="cal-text" rows="6" style="width:100%;font-family:var(--f-mono);font-size:12px;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px" hidden readonly aria-label=".ics teksts"></textarea>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="view" id="v-profils" hidden>
+    <h2>Tavs profils</h2>
+    <p class="muted">Dati paliek tikai šajā pārlūkā. Pēc saglabāšanas plāns tiek pārrēķināts uzreiz.</p>
+    <form class="prof" id="prof" novalidate>
+      <fieldset style="grid-column:1/-1">
+        <legend>Sacensības</legend>
+        <div class="prof" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 16px">
+          <label for="f-dist">Distance<select id="f-dist"></select></label>
+          <label for="f-region">Reģions<select id="f-region"></select></label>
+          <label for="f-race" id="lbl-race">Sacensības<span>izvēlies no saraksta vai ievadi pats</span><select id="f-race"></select></label>
+          <p class="note" id="f-race-info" style="grid-column:1/-1" aria-live="polite"></p>
+          <label for="f-name">Nosaukums<span>piem. Rīgas triatlons</span><input id="f-name" type="text" maxlength="80"></label>
+          <label for="f-date">Datums<input id="f-date" type="date"></label>
+          <label for="f-time">Starta laiks<input id="f-time" type="time"></label>
+          <label for="f-place">Vieta<input id="f-place" type="text" maxlength="60"></label>
+          <label for="f-tz">Laika starpība ar mājām (h)<span>piem. Portugāle −2</span><input id="f-tz" type="number" step="1" min="-12" max="12"></label>
+          <label for="f-temp">Gaidāmā temperatūra (°C)<input id="f-temp" type="number" step="1" min="-10" max="45"></label>
+        </div>
+      </fieldset>
+      <fieldset style="grid-column:1/-1">
+        <legend>Par tevi</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px 16px">
+          <label for="f-age">Vecums<input id="f-age" type="number" min="16" max="90"></label>
+          <label for="f-sex">Dzimums<select id="f-sex"><option value="m">Vīrietis</option><option value="f">Sieviete</option></select></label>
+          <label for="f-weight">Svars (kg)<input id="f-weight" type="number" min="35" max="180"></label>
+          <label for="f-height">Augums (cm)<input id="f-height" type="number" min="130" max="220"></label>
+          <label for="f-level">Pieredze<select id="f-level"><option value="beg">Iesācējs</option><option value="mid">Ar pieredzi</option><option value="adv">Pieredzējis</option></select></label>
+          <label for="f-hours">Stundas nedēļā (maks.)<input id="f-hours" type="number" min="2" max="25" step="0.5"></label>
+          <label for="f-cross">Alternatīvie treniņi<span id="f-cross-hint">citā sporta veidā</span><select id="f-cross"><option value="no">Nē, tikai savs sporta veids</option><option value="opt">Pēc izvēles</option><option value="yes">Iekļaut plānā</option></select></label>
+          <label for="f-ftp">FTP (W)<span>ja zini</span><input id="f-ftp" type="number" min="50" max="500"></label>
+          <label for="f-lthr">Laktāta slieksnis (bpm)<span>ja zini</span><input id="f-lthr" type="number" min="100" max="210"></label>
+        </div>
+      </fieldset>
+      <fieldset style="grid-column:1/-1">
+        <legend>Citas sezonas sacensības</legend>
+        <p class="note">Galvenās sacensības (A) izvēlies augstāk: uz tām ir būvēts viss plāns. Šeit pievieno pārējos startus. <b>B</b>: svarīgs starts, pirms tā 2 dienas atslodze, pēc tā 2 dienas atjaunošanās. <b>C</b>: treniņa starts, aizstāj tās dienas treniņu, nākamajā dienā viegli. Izmaiņas saglabājas uzreiz.</p>
+        <div id="ex-list" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div class="exrow">
+          <label for="ex-ser">Visa sērija<select id="ex-ser"></select></label>
+          <label for="ex-serdist">Distance<select id="ex-serdist"></select></label>
+          <label for="ex-serpri">Prioritāte<select id="ex-serpri"><option value="C">C: treniņa starts</option><option value="B">B: svarīgs starts</option></select></label>
+          <button type="button" class="btn" id="ex-seradd">Pievienot visus posmus</button>
+        </div>
+        <div class="exrow">
+          <label for="ex-race" id="lbl-exrace">Atsevišķas sacensības<select id="ex-race"></select></label>
+          <label for="ex-pri">Prioritāte<select id="ex-pri"><option value="B">B: svarīgs starts</option><option value="C">C: treniņa starts</option></select></label>
+          <button type="button" class="btn" id="ex-add">Pievienot</button>
+        </div>
+        <div class="exrow" id="ex-manual" hidden>
+          <label for="ex-mname">Nosaukums<input id="ex-mname" type="text" maxlength="80"></label>
+          <label for="ex-mdist">Distance<select id="ex-mdist"></select></label>
+          <label for="ex-mdate">Datums<input id="ex-mdate" type="date"></label>
+          <label for="ex-mtime">Starta laiks<input id="ex-mtime" type="time" value="10:00"></label>
+        </div>
+        <p class="status" id="ex-status" aria-live="polite"></p>
+      </fieldset>
+      <fieldset style="grid-column:1/-1">
+        <legend>Atpūtas dienas</legend>
+        <p class="note">Atzīmē dienas, kad netrenēsies (1–4 dienas). Plāns pārliek treniņus uz pārējām dienām; garie treniņi paliek brīvdienās, ja tās ir brīvas.</p>
+        <div class="dayck" id="f-rest" role="group" aria-label="Atpūtas dienas"></div>
+      </fieldset>
+      <fieldset style="grid-column:1/-1">
+        <legend>Veselība</legend>
+        <label for="f-inj">Trauma pēdējo 6 mēnešu laikā<select id="f-inj">
+          <option value="none">Nav</option>
+          <option value="leg">Ceļgali, ikri, Ahileja cīpsla vai pēdas</option>
+          <option value="back">Mugura vai gūžas</option>
+          <option value="shoulder">Pleci</option>
+        </select></label>
+        <label class="ck" for="f-health"><input type="checkbox" id="f-health"> Man ir hroniska slimība (piemēram, sirds, asinsspiediena vai diabēta) vai ārsts ir ierobežojis fizisko slodzi</label>
+        <p class="note">Šīs atbildes paliek tikai šajā pārlūkā. Tās maina plānu un brīdinājumus, bet neaizstāj ārsta vai fizioterapeita padomu.</p>
+      </fieldset>
+      <fieldset style="grid-column:1/-1">
+        <legend>Ierastie treniņu laiki</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px 16px">
+          <label for="f-slot">Darba dienās trenējos<select id="f-slot"><option value="both">no rīta un vakarā</option><option value="am">tikai no rīta</option><option value="pm">tikai vakarā</option></select></label>
+          <label for="f-am">Rīta treniņš<input id="f-am" type="time"></label>
+          <label for="f-pm">Vakara treniņš<input id="f-pm" type="time"></label>
+          <label for="f-we">Brīvdienu garais treniņš<input id="f-we" type="time"></label>
+        </div>
+      </fieldset>
+      <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" type="submit" id="f-save">Saglabāt un sarēķināt</button>
+        <button class="btn" type="button" id="f-example">Atjaunot piemēru</button>
+        <span class="status" id="f-status" aria-live="polite"></span>
+      </div>
+    </form>
+  </section>
+
+  <p class="note">Prototips. Plāns ir aprēķināts pēc vispārīgiem treniņu principiem un nav medicīnisks ieteikums. Pirms gatavošanās garai distancei iesaka pārbaudīties pie sporta ārsta.</p>
+</div>
+
+<script src="races.js"></script>
+<script>
+// Rezerves katalogs: ja races.js nav ielādējies, izmanto šo iebūvēto sarakstu.
+if(!window.GS_CATALOG){
+/* Gatavs Startam – sacensību katalogs. Šo failu var atjaunot atsevišķi no lietotnes. */
+(function(){
+// ---------- sacensību katalogs (2027) ----------
+// ok: datums no oficiāla vai kalendāra avota; ok:false – datums vēl nav apstiprināts.
+// tOk: starta laiks no organizatora; citādi aptuvens. temp: tipiskā gaisa temperatūra (aptuvens novērtējums).
+// tz: laika starpība ar Latviju stundās.
+const SRC = {
+  im:['triathlonatlas.com','https://triathlonatlas.com/en/ironman-schedule'],
+  im70:['5dla.com IRONMAN 2027','https://5dla.com/en-hk/pages/2027-ironman-race-calendar'],
+  ee:['hdsports.org','https://www.hdsports.org/running/triathlon-estonia'],
+  rrm:['rimirigamarathon.com','https://rimirigamarathon.com/en/news/have-you-saved-the-rimi-riga-marathon-2027-dates-yet/'],
+  lt:['hdsports.org','https://www.hdsports.org/running/lithuania-marathon-running'],
+  eer:['hdsports.org','https://www.hdsports.org/running/estonia-marathon-running'],
+  tr:['tartumaraton.ee','https://tartumaraton.ee/en/tartu-rattaralli-2027'],
+  smi:['sportlat.lv (2025. gada nolikums)','https://www.sportlat.lv/sacensibas/1810/smiltenes-triatlons-703-lc-sprints-lc/nolikums'],
+  cf:['challengefamily.com','https://challengefamily.com/races/'],
+  roth:['challenge-roth.com','https://www.challenge-roth.com/en/news-area/der-termin-fur-den-datev-challenge-roth-2027-steht-fest-kopie.html'],
+  nx:['nxtri.com','https://www.nxtri.com/registration-slots'],
+  cx:['xtriworldtour.com (2026. gads)','https://www.xtriworldtour.com/celtman'],
+  ch:['hdsports.org (Šveice)','https://www.hdsports.org/running/triathlon-switzerland'],
+  ws:['hdsports.org (UTMB World Series)','https://www.hdsports.org/running/utmb-world-series'],
+  gauja:['gauja.utmb.world','https://gauja.utmb.world/races/100k'],
+  gaujaA:['gauja.utmb.world (2026. gada programma)','https://gauja.utmb.world/runners/agenda'],
+  a2a:['alps2alps.com (2026. gada nedēļa)','https://www.alps2alps.com/blog/utmb-chamonix-2026-complete-race-week-guide'],
+  lav:['runthealps.com','https://runthealps.com/races/the-north-face-lavaredo-ultra-trail'],
+  eig:['sportsidioten.no (2026. gada programma)','https://www.sportsidioten.no/resultater/eiger-ultra-trial-2026-utmb-world-series/'],
+  utmb:['reference-trail.fr','https://reference-trail.fr/utmb-2027-dates-inscriptions-et-changements-a-quoi-faut-il-sattendre/'],
+  spa:['allovergreece.com','https://www.allovergreece.com/en/top-sports-events-greece/spartathlon'],
+  com:['riotimesonline.com','https://www.riotimesonline.com/comrades-marathon-durban-spectator-guide-13-june-2027-2026/'],
+  sb:['stirnubuks.lv (2026. gads)','https://www.stirnubuks.lv/nolikums-2026/?lang=en'],
+  be:['distantrace.com (2026. gads)','https://distantrace.com/en/@balticevents'],
+  trv:['distantrace.com (2026. gads)','https://distantrace.com/en/competitions/toyota-rigas-velomaratons-2026/results/185174/'],
+  alu:['triathlon.org (2026. gads)','https://triathlon.org/events/2026-europe-triathlon-baltic-championships-aluksne-'],
+  vr:['intervals.icu','https://www.intervals.icu/events/12553/'],
+  m312:['trainerday.com','https://trainerday.com/sk/events/es/mallorca-312-ib-a02d1d-2027-04-25'],
+  etape:['letapedutourdefrance.com','https://www.letapedutourdefrance.com/en/news/a-new-adventure-awaits-you-in-2027/191'],
+  mdd:['tour-magazin.de','https://www.tour-magazin.de/en/event/everyman-race/maratona-dles-dolomites-2027-cycling-marathon-celebrates-its-40th-edition/'],
+  vans:['visitdalarna.se (2025. gads)','https://visitdalarna.se/en/vansbro-swimming'],
+  lvm:['tautassports.lv (2026. gads)','https://tautassports.lv/en/events/lvm-mtb-gravel-marathon-2026-stage-5-smiltene/'],
+  tuk:['ucigravelworldseries.com (2026. gads)','https://ucigravelworldseries.com/en/tukums/'],
+  trm:['visitestonia.com','https://visitestonia.com/en/tartu-bike-marathon-2027'],
+  slow:['slowtwitch.com','https://slowtwitch.com/?p=91777'],
+  traka:['thetraka.com','https://www.thetraka.com/the-traka-200/'],
+  bos:['africanews.com (2025. gads)','https://www.africanews.com/2025/08/25/more-than-2800-swimmers-cross-continents-in-istanbuls-bosphorus-event']
+};
+const REG = {lv:'Latvija', balt:'Lietuva un Igaunija', nord:'Ziemeļvalstis', west:'Rietumeiropa un Centrāleiropa', alps:'Alpi', south:'Dienvideiropa', uk:'Lielbritānija', world:'Citur pasaulē'};
+const RACES = [
+  // Ironman pilnā distance
+  {d:'full', r:'south', n:'IRONMAN Lanzarote', date:'2027-05-15', pl:'Lanzarote, Spānija', tz:-2, temp:24, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Hamburg', date:'2027-06-06', pl:'Hamburga, Vācija', tz:-1, temp:20, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Kärnten-Klagenfurt', date:'2027-06-13', pl:'Klāgenfurte, Austrija', tz:-1, temp:24, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Frankfurt', date:'2027-06-27', pl:'Frankfurte, Vācija', tz:-1, temp:25, ok:1, s:'im'},
+  {d:'full', r:'west', n:"IRONMAN Les Sables d'Olonne", date:'2027-06-27', pl:"Le Sabl d'Olonna, Francija", tz:-1, temp:22, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Switzerland Thun', date:'2027-07-04', pl:'Tūna, Šveice', tz:-1, temp:24, ok:1, s:'im'},
+  {d:'full', r:'south', n:'IRONMAN Vitoria-Gasteiz', date:'2027-07-11', pl:'Vitorija-Gasteisa, Spānija', tz:-1, temp:25, ok:1, s:'im'},
+  {d:'full', r:'balt', n:'IRONMAN Tallinn', date:'2027-08-07', pl:'Tallina, Igaunija', tz:0, temp:20, ok:1, s:'im'},
+  {d:'full', r:'uk', n:'IRONMAN Leeds', date:'2027-08-15', pl:'Līdsa, Lielbritānija', tz:-2, temp:20, ok:1, s:'im'},
+  {d:'full', r:'nord', n:'IRONMAN Kalmar', date:'2027-08-21', pl:'Kalmāra, Zviedrija', tz:-1, temp:20, ok:1, s:'im'},
+  {d:'full', r:'nord', n:'IRONMAN Copenhagen', date:'2027-08-22', pl:'Kopenhāgena, Dānija', tz:-1, temp:20, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Vichy', date:'2027-08-22', pl:'Viši, Francija', tz:-1, temp:26, ok:1, s:'im'},
+  {d:'full', r:'west', n:'IRONMAN Belgium Knokke-Heist', date:'2027-09-05', pl:'Knoke-Heista, Beļģija', tz:-1, temp:20, ok:1, s:'im'},
+  {d:'full', r:'south', n:'IRONMAN France Nice', date:'2027-09-12', pl:'Nica, Francija', tz:-1, temp:25, ok:1, s:'im'},
+  {d:'full', r:'south', n:'IRONMAN Italy Emilia-Romagna', date:'2027-09-18', pl:'Červija, Itālija', tz:-1, temp:25, ok:1, s:'im'},
+  {d:'full', r:'uk', n:'IRONMAN Wales', date:'2027-09-19', pl:'Tenbija, Velsa', tz:-2, temp:17, ok:1, s:'im'},
+  {d:'full', r:'south', n:'IRONMAN Calella-Barcelona', date:'2027-10-03', pl:'Kaleja, Spānija', tz:-1, temp:22, ok:1, s:'im'},
+  {d:'full', r:'south', n:'IRONMAN Portugal-Cascais', date:'2027-10-23', pl:'Kaškaiša, Portugāle', tz:-2, temp:22, ok:1, s:'im'},
+  // IRONMAN 70.3 un vidējā distance
+  {d:'half', r:'south', n:'IRONMAN 70.3 Valencia', date:'2027-04-18', pl:'Valensija, Spānija', tz:-1, temp:21, ok:1, s:'im70'},
+  {d:'half', r:'west', n:'IRONMAN 70.3 Tours', date:'2027-06-06', pl:'Tūra, Francija', tz:-1, temp:23, ok:1, s:'im70'},
+  {d:'half', r:'nord', n:'IRONMAN 70.3 Elsinore', date:'2027-06-27', pl:'Helsingēra, Dānija', tz:-1, temp:20, ok:1, s:'im70'},
+  {d:'half', r:'nord', n:'IRONMAN 70.3 Jönköping', date:'2027-07-11', pl:'Jēnšēpinga, Zviedrija', tz:-1, temp:21, ok:1, s:'im70'},
+  {d:'half', r:'west', n:'IRONMAN 70.3 Leipzig', date:'2027-08-08', pl:'Leipciga, Vācija', tz:-1, temp:25, ok:1, s:'im70'},
+  {d:'half', r:'balt', n:'IRONMAN 70.3 Tallinn', date:'2027-08-22', pl:'Tallina, Igaunija', tz:0, temp:20, ok:0, s:'ee'},
+  {d:'half', r:'lv', n:'Smiltenes triatlons · vidējā', date:'', month:'jūlijā', pl:'Smiltene, "Teperis"', time:'11:00', tOk:1, tz:0, temp:23, ok:0, s:'smi'},
+  {d:'sprint', r:'lv', n:'Smiltenes triatlons · sprints', date:'', month:'jūlijā', pl:'Smiltene, "Teperis"', time:'12:00', tOk:1, tz:0, temp:23, ok:0, s:'smi'},
+  // Skriešana
+  {d:'m', r:'lv', n:'Rimi Rīgas maratons', date:'2027-05-16', pl:'Rīga', time:'07:35', tOk:0, tz:0, temp:17, ok:1, s:'rrm'},
+  {d:'hm', r:'lv', n:'Rimi Rīgas maratons · pusmaratons', date:'2027-05-16', pl:'Rīga', time:'09:30', tOk:0, tz:0, temp:17, ok:1, s:'rrm'},
+  {d:'r10', r:'lv', n:'Rimi Rīgas maratons · 10 km', date:'2027-05-16', pl:'Rīga', time:'12:30', tOk:0, tz:0, temp:17, ok:1, s:'rrm'},
+  {d:'r5', r:'lv', n:'Rimi Rīgas maratons · 6 km', km:'6 km', date:'2027-05-16', pl:'Rīga', time:'14:30', tOk:0, tz:0, temp:17, ok:1, s:'rrm'},
+  ...['m','hm','r10','r5'].map(d=>({d, r:'balt', n:'Kauno maratonas'+({m:'',hm:' · pusmaratons',r10:' · 10 km',r5:' · 5 km'})[d], date:'2027-04-25', pl:'Kauņa, Lietuva', tz:0, temp:13, ok:1, s:'lt'})),
+  ...['m','hm','r10','r5'].map(d=>({d, r:'balt', n:'Vilniaus maratonas'+({m:'',hm:' · pusmaratons',r10:' · 10 km',r5:' · 5 km'})[d], date:'2027-09-12', pl:'Viļņa, Lietuva', tz:0, temp:17, ok:0, s:'lt'})),
+  ...['m','hm','r10','r5'].map(d=>({d, r:'balt', n:'Tallinna maraton'+({m:'',hm:' · pusmaratons',r10:' · 10 km',r5:' · 5 km'})[d], date:'2027-09-12', pl:'Tallina, Igaunija', tz:0, temp:16, ok:1, s:'eer'})),
+  ...['m','hm','r10'].map(d=>({d, r:'balt', n:'Tartu Linnamaraton'+({m:'',hm:' · pusmaratons',r10:' · 10 km'})[d], date:'2027-10-02', pl:'Tartu, Igaunija', tz:0, temp:11, ok:0, s:'eer'})),
+  // Citi triatloni (Challenge Family u.c.)
+  {d:'full', r:'west', n:'DATEV Challenge Roth', date:'2027-07-04', pl:'Rota, Vācija', time:'06:30', tz:-1, temp:25, ok:1, s:'roth'},
+  {d:'full', r:'west', n:'Challenge Almere-Amsterdam · pilnā', date:'2027-09-11', pl:'Almēre, Nīderlande', tz:-1, temp:19, ok:1, s:'cf'},
+  {d:'half', r:'west', n:'Challenge Almere-Amsterdam · vidējā', date:'2027-09-11', pl:'Almēre, Nīderlande', tz:-1, temp:19, ok:1, s:'cf'},
+  {d:'full', r:'alps', n:'Schaffhauser Triathlon · garā', date:'2027-08-15', pl:'Šafhauzene, Šveice', tz:-1, temp:25, ok:1, s:'ch'},
+  {d:'olympic', r:'alps', n:'Schaffhauser Triathlon · īsā', km:'garumu pārbaudi', date:'2027-08-15', pl:'Šafhauzene, Šveice', tz:-1, temp:25, ok:1, s:'ch', nt:'Īsās distances precīzos garumus pārbaudi organizatora mājaslapā.'},
+  {d:'half', r:'alps', n:'IRONMAN 70.3 Rapperswil-Jona', date:'2027-06-06', pl:'Rapersvila, Šveice', tz:-1, temp:22, ok:1, s:'ch'},
+  {d:'half', r:'alps', n:'Uster Triathlon · vidējā', date:'2027-08-22', pl:'Ustere, Šveice', tz:-1, temp:24, ok:0, s:'ch'},
+  {d:'olympic', r:'alps', n:'Locarno Triathlon · olimpiskā', date:'2027-09-05', pl:'Lokarno, Šveice', tz:-1, temp:24, ok:1, s:'ch'},
+  {d:'half', r:'alps', n:'Challenge Kaiserwinkl-Walchsee · 100', km:'2 + 80 + 18 km', date:'2027-06-27', pl:'Valhzē, Austrija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'half', r:'south', n:'Challenge Salou · 100', km:'2 + 80 + 18 km', date:'2027-05-09', pl:'Salou, Spānija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'olympic', r:'south', n:'Challenge Salou · olimpiskā', date:'2027-05-09', pl:'Salou, Spānija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'half', r:'south', n:'Challenge Cesenatico · 100', km:'2 + 80 + 18 km', date:'2027-05-16', pl:'Čezenatiko, Itālija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'sprint', r:'south', n:'Challenge Cesenatico · sprints', date:'2027-05-16', pl:'Čezenatiko, Itālija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'half', r:'west', n:'The Championship (Challenge) · 100', km:'2 + 80 + 18 km', date:'2027-05-23', pl:'Šamorīna, Slovākija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'olympic', r:'west', n:'The Championship (Challenge) · olimpiskā', date:'2027-05-23', pl:'Šamorīna, Slovākija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'sprint', r:'west', n:'The Championship (Challenge) · sprints', date:'2027-05-23', pl:'Šamorīna, Slovākija', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'half', r:'balt', n:'Challenge Gdańsk · 100', km:'2 + 80 + 18 km', date:'2027-06-20', pl:'Gdaņska, Polija', tz:-1, temp:21, ok:1, s:'cf'},
+  {d:'sprint', r:'balt', n:'Challenge Gdańsk · sprints', date:'2027-06-20', pl:'Gdaņska, Polija', tz:-1, temp:21, ok:1, s:'cf'},
+  {d:'half', r:'west', n:'Challenge Vieux-Boucau · 100', km:'2 + 80 + 18 km', date:'2027-10-02', pl:'Vjē Buko, Francija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'olympic', r:'west', n:'Challenge Vieux-Boucau · olimpiskā', date:'2027-10-02', pl:'Vjē Buko, Francija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'sprint', r:'west', n:'Challenge Vieux-Boucau · sprints', date:'2027-10-02', pl:'Vjē Buko, Francija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'half', r:'south', n:'Challenge Peguera-Mallorca · 100', km:'2 + 80 + 18 km', date:'2027-10-16', pl:'Pegera, Maljorka', tz:-1, temp:23, ok:1, s:'cf'},
+  {d:'half', r:'south', n:'Challenge Forte Village · vidējā', date:'2027-10-24', pl:'Sardīnija, Itālija', tz:-1, temp:22, ok:1, s:'cf'},
+  {d:'sprint', r:'lv', n:'Alūksnes triatlons · sprints', date:'2027-06-19', e:1, pl:'Alūksne', tz:0, temp:21, ok:0, s:'alu', nt:'2026. gadā šeit notika Baltijas čempionāts sprintā (20. jūnijā). Pārbaudi, vai ir amatieru starts un citas distances.'},
+  // Ekstrēmie triatloni
+  {d:'full', r:'nord', n:'Norseman Xtreme Triathlon', date:'2027-08-07', pl:'Eidfjorda, Norvēģija', time:'05:00', tz:-1, temp:14, ok:1, s:'nx', du:900, nt:'Ekstrēms triatlons: starts no prāmja fjordā (ūdens ~13–17 °C), velo ar lieliem kāpumiem, finišs Gaustatoppen kalnā. Vajadzīga atbalsta komanda; vietas sadala izlozē.'},
+  {d:'full', r:'uk', n:'Celtman Extreme Scottish Triathlon', km:'3,4 + 202 + 42 km', date:'2027-06-12', e:1, pl:'Šīldeiga, Skotija', time:'05:00', tz:-2, temp:15, ok:0, s:'cx', du:900, nt:'Ekstrēms triatlons: auksts jūras ūdens, kalnu skrējiens. Vajadzīga atbalsta komanda.'},
+  {d:'full', r:'alps', n:'Swissman Xtreme Triathlon', date:'2027-06-26', pl:'Brisago, Šveice', time:'05:00', tz:-1, temp:22, ok:1, s:'ch', du:900, nt:'Ekstrēms triatlons: starts Lago Maggiore, velo pāri Alpu pārejām, finišs Kleine Scheidegg.'},
+  {d:'full', r:'alps', n:'Inferno Triathlon', km:'3,1 + 97 + 30 (MTB) + 25 km', date:'2027-08-21', pl:'Tūna–Mirena, Šveice', tz:-1, temp:20, ok:1, s:'ch', du:720, nt:'3,1 km peldēšana, 97 km šoseja + 30 km MTB, 25 km kalnu skrējiens līdz Šilthornam. Plānā izmantota pilnās distances struktūra.'},
+  // ===== Taku skriešana un ultra =====
+  // UTMB Mont-Blanc (Šamonī). 2027. gada datumi nav oficiāli: aprēķināti pēc 2026. gada nedēļas; var mainīties UCI čempionāta dēļ.
+  {d:'u160', r:'alps', n:'UTMB Mont-Blanc · UTMB', km:'174 km, +9 900 m', date:'2027-08-27', e:1, pl:'Šamonī, Francija', time:'17:45', tz:-1, temp:18, ok:0, s:'a2a', du:2400, nt:'2027. gada nedēļa nav oficiāla: UTMB var tikt pārcelts UCI pasaules čempionāta dēļ. Vajadzīgi UTMB Running Stones.'},
+  {d:'u160', r:'alps', n:'UTMB Mont-Blanc · TDS', km:'148 km, +9 100 m', date:'2027-08-23', e:1, pl:'Kurmajēra, Itālija', time:'23:50', tz:-1, temp:18, ok:0, s:'a2a', du:2100, nt:'2027. gada nedēļa nav oficiāla. Starts naktī.'},
+  {d:'u100', r:'alps', n:'UTMB Mont-Blanc · CCC', km:'101 km, +6 050 m', date:'2027-08-27', e:1, pl:'Kurmajēra, Itālija', time:'09:00', tz:-1, temp:18, ok:0, s:'a2a', du:1260, nt:'2027. gada nedēļa nav oficiāla.'},
+  {d:'u50', r:'alps', n:'UTMB Mont-Blanc · OCC', km:'57 km, +3 500 m', date:'2027-08-26', e:1, pl:'Oršjēra, Šveice', time:'08:15', tz:-1, temp:18, ok:0, s:'a2a', du:540, nt:'2027. gada nedēļa nav oficiāla.'},
+  {d:'t30', r:'alps', n:'UTMB Mont-Blanc · MCC', km:'40 km', date:'2027-08-25', e:1, pl:'Martinji-Komba, Šveice', tz:-1, temp:18, ok:0, s:'a2a', du:330, nt:'Notiek nedēļas sākumā; dienu un laiku pārbaudi. 2027. gada nedēļa nav oficiāla.'},
+  {d:'t15', r:'alps', n:'UTMB Mont-Blanc · ETC', km:'15 km', date:'2027-08-24', e:1, pl:'Kurmajēra, Itālija', tz:-1, temp:18, ok:0, s:'a2a', du:120, nt:'Notiek nedēļas sākumā; dienu un laiku pārbaudi. 2027. gada nedēļa nav oficiāla.'},
+  // Lavaredo (Kortīna d'Ampeco). Distanču augstumi pēc runthealps.com saraksta secības.
+  {d:'u100', r:'alps', n:'Lavaredo · Lavaredo Ultra Trail 120K', km:'120 km, ~+5 800 m', date:'2027-06-25', pl:"Kortīna d'Ampeco, Itālija", time:'23:00', tz:-1, temp:18, ok:1, s:'ws', du:1260, nt:'Tradicionāli startē piektdienas naktī; laiku pārbaudi.'},
+  {d:'u100', r:'alps', n:'Lavaredo · Ultra Dolomites 80K', km:'80 km, ~+4 600 m', date:'2027-06-26', e:1, pl:"Kortīna d'Ampeco, Itālija", tz:-1, temp:18, ok:0, s:'lav', du:960, nt:'Pasākums notiek 23.–27. jūnijā; distances dienu pārbaudi.'},
+  {d:'u50', r:'alps', n:'Lavaredo · Cortina Trail 50K', km:'50 km, ~+2 600 m', date:'2027-06-26', e:1, pl:"Kortīna d'Ampeco, Itālija", tz:-1, temp:18, ok:0, s:'lav', du:480, nt:'Distances dienu pārbaudi.'},
+  {d:'t30', r:'alps', n:'Lavaredo · Cortina Skyrace 20K', km:'20 km, ~+1 000 m', date:'2027-06-26', e:1, pl:"Kortīna d'Ampeco, Itālija", tz:-1, temp:18, ok:0, s:'lav', du:180, nt:'Distances dienu pārbaudi.'},
+  {d:'t15', r:'alps', n:'Lavaredo · Lavaredo 10K', km:'10 km, ~+200 m', date:'2027-06-26', e:1, pl:"Kortīna d'Ampeco, Itālija", tz:-1, temp:18, ok:0, s:'lav', du:70, nt:'Distances dienu pārbaudi.'},
+  // Eiger (Grindelvalde). Laiki pēc 2026. gada programmas.
+  {d:'u160', r:'alps', n:'Eiger Ultra Trail · E250', km:'250 km', date:'2027-07-15', e:1, pl:'Grindelvalde, Šveice', time:'03:00', tz:-1, temp:18, ok:0, s:'eig', du:3600, nt:'2026. gadā startēja ceturtdien; 2027. gada dienu pārbaudi.'},
+  {d:'u100', r:'alps', n:'Eiger Ultra Trail · E101', km:'101 km, +6 700 m', date:'2027-07-17', pl:'Grindelvalde, Šveice', time:'04:00', tz:-1, temp:18, ok:1, s:'eig', du:1200},
+  {d:'u50', r:'alps', n:'Eiger Ultra Trail · E51', km:'50 km', date:'2027-07-17', pl:'Grindelvalde, Šveice', time:'07:15', tz:-1, temp:18, ok:1, s:'eig', du:480},
+  {d:'t30', r:'alps', n:'Eiger Ultra Trail · E35', km:'35 km', date:'2027-07-17', pl:'Grindelvalde, Šveice', time:'07:35', tz:-1, temp:18, ok:1, s:'eig', du:300},
+  {d:'t30', r:'alps', n:'Eiger Ultra Trail · E16', km:'16 km', date:'2027-07-17', pl:'Grindelvalde, Šveice', time:'09:00', tz:-1, temp:18, ok:1, s:'eig', du:120},
+  // Gauja Trail by UTMB (Sigulda–Cēsis). 2027: 100K no organizatora; pārējās pēc 2026. gada programmas.
+  {d:'u100', r:'lv', n:'Gauja Trail by UTMB · 100K', ser:'Gauja Trail by UTMB 2027', km:'91 km, +2 200 m', date:'2027-08-07', pl:'Sigulda', time:'07:30', tOk:1, tz:0, temp:21, ok:1, s:'gauja', du:840, nt:'Kontrollaiks 18 h.'},
+  {d:'u50', r:'lv', n:'Gauja Trail by UTMB · 50K', ser:'Gauja Trail by UTMB 2027', km:'50 km', date:'2027-08-08', e:1, pl:'Līgatne', time:'08:30', tz:0, temp:21, ok:0, s:'gaujaA', du:360, nt:'2026. gadā startēja svētdien Līgatnē.'},
+  {d:'t30', r:'lv', n:'Gauja Trail by UTMB · 20K', ser:'Gauja Trail by UTMB 2027', km:'20 km', date:'2027-08-07', e:1, pl:'Cēsis, Rožu laukums', time:'14:00', tz:0, temp:21, ok:0, s:'gaujaA', du:140, nt:'2026. gadā startēja sestdien Cēsīs.'},
+  {d:'t15', r:'lv', n:'Gauja Trail by UTMB · 10K', ser:'Gauja Trail by UTMB 2027', km:'10 km', date:'2027-08-08', e:1, pl:'Cēsis, Rožu laukums', time:'13:00', tz:0, temp:21, ok:0, s:'gaujaA', du:70, nt:'2026. gadā startēja svētdien Cēsīs.'},
+  // Stirnu buks: 2027. gada kalendārs vēl nav publicēts – datumi pēc 2026. gada (tā pati nedēļas diena). Garumi katrā posmā atšķiras.
+  {d:'t15', r:'lv', n:'Latvijas Valsts mežu Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-03-27', e:1, pl:'Tērvete', tz:0, temp:6, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 28. martā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Latvijas Valsts mežu Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-03-27', e:1, pl:'Tērvete', tz:0, temp:6, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 28. martā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Latvijas Valsts mežu Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-03-27', e:1, pl:'Tērvete', tz:0, temp:6, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 28. martā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Latvijas Valsts mežu Stirnu buks · Lūsis', ser:'Stirnu buks 2027', km:'24–36 km', date:'2027-03-27', e:1, pl:'Tērvete', tz:0, temp:6, ok:0, s:'sb', du:240, nt:'2026. gadā šis posms notika 28. martā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Pilsēttakas Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-04-24', e:1, pl:'Tukums', tz:0, temp:9, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 25. aprīlī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Pilsēttakas Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-04-24', e:1, pl:'Tukums', tz:0, temp:9, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 25. aprīlī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Pilsēttakas Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-04-24', e:1, pl:'Tukums', tz:0, temp:9, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 25. aprīlī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Pilsēttakas Stirnu buks · Lūsis', ser:'Stirnu buks 2027', km:'24–36 km', date:'2027-04-24', e:1, pl:'Tukums', tz:0, temp:9, ok:0, s:'sb', du:240, nt:'2026. gadā šis posms notika 25. aprīlī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Mežonīgās Vidzemes Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-05-22', e:1, pl:'Augstroze', tz:0, temp:14, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 23. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Mežonīgās Vidzemes Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-05-22', e:1, pl:'Augstroze', tz:0, temp:14, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 23. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Mežonīgās Vidzemes Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-05-22', e:1, pl:'Augstroze', tz:0, temp:14, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 23. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Mežonīgās Vidzemes Stirnu buks · Lūsis', ser:'Stirnu buks 2027', km:'24–36 km', date:'2027-05-22', e:1, pl:'Augstroze', tz:0, temp:14, ok:0, s:'sb', du:240, nt:'2026. gadā šis posms notika 23. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Saulgriežu nakts Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-06-19', e:1, pl:'Liepāja', tz:0, temp:18, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Saulgriežu nakts Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-06-19', e:1, pl:'Liepāja', tz:0, temp:18, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Saulgriežu nakts Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-06-19', e:1, pl:'Liepāja', tz:0, temp:18, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'u50', r:'lv', n:'Saulgriežu nakts Stirnu buks · Vilks (ultra)', ser:'Stirnu buks 2027', km:'50–80 km', date:'2027-06-19', e:1, pl:'Liepāja', tz:0, temp:18, ok:0, s:'sb', du:480, nt:'Vilks reizi sezonā aizstāj Lūsi; 2026. gadā Liepājā plānoti 50+ km. 2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Zilo kalnu Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-09-11', e:1, pl:'Ogre', tz:0, temp:14, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 12. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Zilo kalnu Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-09-11', e:1, pl:'Ogre', tz:0, temp:14, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 12. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Zilo kalnu Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-09-11', e:1, pl:'Ogre', tz:0, temp:14, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 12. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Zilo kalnu Stirnu buks · Lūsis', ser:'Stirnu buks 2027', km:'24–36 km', date:'2027-09-11', e:1, pl:'Ogre', tz:0, temp:14, ok:0, s:'sb', du:240, nt:'2026. gadā šis posms notika 12. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Lielā fināla Stirnu buks · Vāvere', ser:'Stirnu buks 2027', km:'5–7 km', date:'2027-10-09', e:1, pl:'Priekuļi', tz:0, temp:8, ok:0, s:'sb', du:45, nt:'2026. gadā šis posms notika 10. oktobrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t15', r:'lv', n:'Lielā fināla Stirnu buks · Zaķis', ser:'Stirnu buks 2027', km:'11–14 km', date:'2027-10-09', e:1, pl:'Priekuļi', tz:0, temp:8, ok:0, s:'sb', du:90, nt:'2026. gadā šis posms notika 10. oktobrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Lielā fināla Stirnu buks · Stirnu buks', ser:'Stirnu buks 2027', km:'18–24 km', date:'2027-10-09', e:1, pl:'Priekuļi', tz:0, temp:8, ok:0, s:'sb', du:150, nt:'2026. gadā šis posms notika 10. oktobrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'t30', r:'lv', n:'Lielā fināla Stirnu buks · Lūsis', ser:'Stirnu buks 2027', km:'24–36 km', date:'2027-10-09', e:1, pl:'Priekuļi', tz:0, temp:8, ok:0, s:'sb', du:240, nt:'2026. gadā šis posms notika 10. oktobrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  // Citi UTMB World Series (garākās distances kategorija)
+  {d:'u160', r:'south', n:'Istria 100 by UTMB · 100M', km:'100M kategorija (~160 km+)', date:'2027-04-02', pl:'Labina, Horvātija', tz:-1, temp:16, ok:1, s:'ws', nt:'Datums ir pasākuma sākuma diena; garākās distances starts var būt vēlāk.'},
+  {d:'u160', r:'south', n:"Val d'Aran by UTMB · 100M", km:'100M kategorija (~160 km+)', date:'2027-07-01', pl:'Vielja, Spānija', tz:-1, temp:22, ok:0, s:'ws', nt:'Datums ir pasākuma sākuma diena.'},
+  {d:'u160', r:'alps', n:'KAT100 by UTMB · 100M', km:'100M kategorija (~160 km+)', date:'2027-08-05', pl:'Fīberbrunna, Austrija', tz:-1, temp:20, ok:1, s:'ws', nt:'Datums ir pasākuma sākuma diena.'},
+  {d:'u100', r:'alps', n:'Zugspitz Ultratrail by UTMB · 100K', km:'100K kategorija (~100 km)', date:'2027-06-17', pl:'Grainau, Vācija', tz:-1, temp:20, ok:1, s:'ws', nt:'Datums ir pasākuma sākuma diena; savas distances dienu pārbaudi.'},
+  {d:'u100', r:'alps', n:'Mozart 100 by UTMB · 100K', km:'100K kategorija (~100 km)', date:'2027-06-05', pl:'Fušla, Austrija', tz:-1, temp:21, ok:1, s:'ws'},
+  {d:'u100', r:'south', n:'Andorra Trail 100 by UTMB', km:'garākā distance, pārbaudi', date:'2027-06-12', pl:'Ordino, Andora', tz:-1, temp:20, ok:1, s:'ws'},
+  {d:'u100', r:'south', n:'Chianti Ultra Trail by UTMB', km:'garākā distance ~120 km, pārbaudi', date:'2027-03-19', pl:'Radda in Kjanti, Itālija', tz:-1, temp:15, ok:1, s:'ws', nt:'Datums ir pasākuma sākuma diena.'},
+  // Šosejas ultramaratoni
+  {d:'u160', r:'south', n:'Spartathlon', km:'246 km (šoseja)', date:'2027-09-24', e:1, pl:'Atēnas–Sparta, Grieķija', time:'07:00', tz:0, temp:27, ok:0, s:'spa', du:2040, nt:'Notiek septembra pēdējā nedēļas nogalē; vajadzīga kvalifikācija, kontrollaiks 36 h.'},
+  {d:'u100', r:'world', n:'Comrades Marathon', km:'~90 km (šoseja)', date:'2027-06-13', pl:'Dērbana–Pītermaricburga, DĀR', time:'05:30', tz:-1, temp:20, ok:1, s:'com', du:660, nt:'100. sacensības; kontrollaiks 12 h.'},
+  // Latvijas skriešana
+  {d:'hm', r:'lv', n:'BTA Jelgavas nakts pusmaratons', date:'2027-09-04', e:1, pl:'Jelgava', time:'21:00', tz:0, temp:15, ok:0, s:'be', nt:'Nakts skrējiens: precīzu starta laiku pārbaudi.'},
+  {d:'hm', r:'lv', n:'BTA Liepājas Jūras svētku pusmaratons', date:'2027-07-11', e:1, pl:'Liepāja', tz:0, temp:20, ok:0, s:'be', nt:'Pasākums notiek divas dienas; pusmaratona dienu pārbaudi.'},
+  // Riteņbraukšana
+  {d:'gf160', r:'nord', n:'Vätternrundan', km:'315 km', date:'2027-06-18', pl:'Motala, Zviedrija', time:'19:30', tz:-1, temp:18, ok:1, s:'vr', du:720, nt:'Starti viļņos no piektdienas vakara līdz sestdienas rītam; savu starta laiku saņemsi reģistrējoties.'},
+  {d:'gf160', r:'south', n:'Mallorca 312', km:'312 km, ~+5 000 m', date:'2027-04-25', pl:'Alkudija, Maljorka', time:'07:00', tz:-1, temp:20, ok:1, s:'m312', du:660, nt:'312 km, ~5 000 m kāpums. Ir arī īsākas distances.'},
+  {d:'gf160', r:'west', n:"L'Étape du Tour", km:'~140–180 km (maršruts vēl nav zināms)', date:'2027-07-11', pl:'Francija (maršruts vēl nav paziņots)', tz:-1, temp:26, ok:1, s:'etape', nt:'Maršruts parasti ir viens Tour de France kalnu posms, 140–180 km.'},
+  {d:'gf100', r:'alps', n:'Maratona dles Dolomites', km:'138 km, +4 230 m', date:'2027-07-04', pl:'Korvara, Itālija', time:'06:30', tz:-1, temp:20, ok:1, s:'mdd', du:420, nt:'138 km, 4 230 m kāpums. Ir arī 106 km un 55 km.'},
+  {d:'gf100', r:'lv', n:'Toyota Rīgas velomaratons', km:'garākā distance, pārbaudi', date:'2027-05-30', e:1, pl:'Rīga', tz:0, temp:18, ok:0, s:'trv', nt:'2026. gadā notika 31. maijā. Garākās distances garumu pārbaudi organizatora mājaslapā.'},
+  // LVM MTB un Gravel maratons: 2027. gada kalendārs vēl nav publicēts – datumi pēc 2026. gada; distanču garumi katrā posmā atšķiras.
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 1. posms Cēsis–Valmiera · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-05-02', e:1, pl:'Cēsis–Valmiera', time:'10:00', tz:0, temp:14, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 4. maijā (pirmdien, svētku dienā). Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 1. posms Cēsis–Valmiera · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-05-02', e:1, pl:'Cēsis–Valmiera', time:'10:00', tz:0, temp:14, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 4. maijā (pirmdien, svētku dienā). Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 1. posms Cēsis–Valmiera · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-05-02', e:1, pl:'Cēsis–Valmiera', time:'10:00', tz:0, temp:14, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 4. maijā (pirmdien, svētku dienā). Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 2. posms Sigulda · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-05-09', e:1, pl:'Sigulda', time:'10:00', tz:0, temp:15, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 10. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 2. posms Sigulda · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-05-09', e:1, pl:'Sigulda', time:'10:00', tz:0, temp:15, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 10. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 2. posms Sigulda · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-05-09', e:1, pl:'Sigulda', time:'10:00', tz:0, temp:15, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 10. maijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 3. posms Gaujasrēveļi · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-06-19', e:1, pl:'Gaujasrēveļi', time:'10:00', tz:0, temp:20, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā. 2026. gadā kalendārā minēta arī Rankas Kartonfabrika.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 3. posms Gaujasrēveļi · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-06-19', e:1, pl:'Gaujasrēveļi', time:'10:00', tz:0, temp:20, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā. 2026. gadā kalendārā minēta arī Rankas Kartonfabrika.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 3. posms Gaujasrēveļi · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-06-19', e:1, pl:'Gaujasrēveļi', time:'10:00', tz:0, temp:20, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 20. jūnijā. Precīzu garumu un starta laiku pārbaudi posma lapā. 2026. gadā kalendārā minēta arī Rankas Kartonfabrika.'},
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 4. posms Ogre · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-07-11', e:1, pl:'Ogre', time:'10:00', tz:0, temp:22, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 12. jūlijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 4. posms Ogre · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-07-11', e:1, pl:'Ogre', time:'10:00', tz:0, temp:22, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 12. jūlijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 4. posms Ogre · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-07-11', e:1, pl:'Ogre', time:'10:00', tz:0, temp:22, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 12. jūlijā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 5. posms Smiltene · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-08-01', e:1, pl:'Smiltene', time:'10:00', tz:0, temp:21, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 2. augustā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 5. posms Smiltene · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-08-01', e:1, pl:'Smiltene', time:'10:00', tz:0, temp:21, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 2. augustā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 5. posms Smiltene · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-08-01', e:1, pl:'Smiltene', time:'10:00', tz:0, temp:21, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 2. augustā. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'grv1', r:'lv', n:'LVM MTB/Gravel 6. posms Cēsis · Toyota Gravel', ser:'LVM MTB un Gravel 2027', km:'55–80 km', date:'2027-09-26', e:1, pl:'Cēsis', time:'10:00', tz:0, temp:13, ok:0, s:'lvm', du:150, nt:'2026. gadā šis posms notika 27. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 6. posms Cēsis · Lielbāta MTB', ser:'LVM MTB un Gravel 2027', km:'30–45 km', date:'2027-09-26', e:1, pl:'Cēsis', time:'10:00', tz:0, temp:13, ok:0, s:'lvm', du:120, nt:'2026. gadā šis posms notika 27. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 6. posms Cēsis · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-09-26', e:1, pl:'Cēsis', time:'10:00', tz:0, temp:13, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 27. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
+  {d:'mtb2', r:'balt', n:'Tartu Rattamaraton · 86 km', km:'86 km', date:'2027-09-19', pl:'Otepē–Elva, Igaunija', tz:0, temp:14, ok:0, s:'trm', du:270, nt:'Klasiskais MTB maratons; pasākums notiek 18.–19. septembrī, distances dienu pārbaudi.'},
+  {d:'mtb1', r:'balt', n:'Tartu Rattamaraton · 40 km', km:'40 km', date:'2027-09-19', pl:'Otepē–Elva, Igaunija', tz:0, temp:14, ok:0, s:'trm', du:130, nt:'Pasākums notiek 18.–19. septembrī, distances dienu pārbaudi.'},
+  // Gravel
+  {d:'grv2', r:'lv', n:'Gravel Weekend Tukums · 140 km', km:'140 km', date:'2027-08-07', e:1, pl:'Tukums', tz:0, temp:21, ok:0, s:'tuk', du:330, nt:'UCI Gravel World Series posms (pasaules čempionāta kvalifikācija). 2026. gadā notika 8. augustā; paugurains reljefs ar īsiem kāpumiem.'},
+  {d:'grv1', r:'lv', n:'Gravel Weekend Tukums · 75 km', km:'75 km', date:'2027-08-07', e:1, pl:'Tukums', tz:0, temp:21, ok:0, s:'tuk', du:180, nt:'2026. gadā notika 8. augustā.'},
+  {d:'grv2', r:'balt', n:'Tartu Rattamaraton · gravel', km:'126 km', date:'2027-09-19', pl:'Otepē–Elva, Igaunija', tz:0, temp:14, ok:0, s:'trm', du:330, nt:'Pasākums notiek 18.–19. septembrī; gravel distances dienu pārbaudi. UCI Gravel World Series posms.'},
+  {d:'grv3', r:'south', n:'The Traka · 300', km:'~300 km', date:'2027-05-01', pl:'Žirona, Spānija', tz:-1, temp:20, ok:0, s:'traka', du:840, nt:'Pasākums notiek 30. aprīlī–2. maijā; savas distances dienu pārbaudi.'},
+  {d:'grv2', r:'south', n:'The Traka · 200', km:'~200 km', date:'2027-05-01', pl:'Žirona, Spānija', tz:-1, temp:20, ok:0, s:'traka', du:540, nt:'Pasākums notiek 30. aprīlī–2. maijā; savas distances dienu pārbaudi.'},
+  {d:'grv1', r:'south', n:'The Traka · 100', km:'~100 km', date:'2027-05-01', pl:'Žirona, Spānija', tz:-1, temp:20, ok:0, s:'traka', du:270, nt:'Pasākums notiek 30. aprīlī–2. maijā; savas distances dienu pārbaudi.'},
+  {d:'grv3', r:'nord', n:'The Rift · 240 km', km:'240 km', date:'2027-07-24', pl:'Hvolsvēlura, Islande', tz:-3, temp:12, ok:0, s:'slow', du:660, nt:'Pasākums notiek 23.–24. jūlijā; garākās (300+ km) distances izpārdotas.'},
+  {d:'grv2', r:'nord', n:'The Rift · 140 km', km:'140 km', date:'2027-07-24', pl:'Hvolsvēlura, Islande', tz:-3, temp:12, ok:0, s:'slow', du:420, nt:'Pasākums notiek 23.–24. jūlijā.'},
+  {d:'grv3', r:'world', n:'Unbound Gravel · 200', km:'200 jūdzes (~320 km)', date:'2027-06-05', pl:'Emporija, Kanzasa, ASV', time:'06:00', tz:-8, temp:28, ok:0, s:'slow', du:900, nt:'Pasākums notiek 3.–6. jūnijā; vietas sadala izlozē. Starta laiks aptuvens.'},
+  {d:'grv2', r:'world', n:'Unbound Gravel · 100', km:'100 jūdzes (~160 km)', date:'2027-06-05', pl:'Emporija, Kanzasa, ASV', tz:-8, temp:28, ok:0, s:'slow', du:480, nt:'Pasākums notiek 3.–6. jūnijā; vietas sadala izlozē.'},
+  // Peldēšana atklātā ūdenī
+  {d:'ow5', r:'nord', n:'Vansbrosimningen', km:'3 km', date:'2027-07-03', e:1, pl:'Vansbro, Zviedrija', time:'10:00', tz:-1, temp:20, ok:0, s:'vans', du:75, nt:'3 km upē (2 km pa straumi, 1 km pret). Notiek jūlija sākumā; starti viļņos.'},
+  {d:'ow5', r:'south', n:'Bosphorus Cross-Continental Swim', km:'6,5 km', date:'2027-08-22', e:1, pl:'Stambula, Turcija', tz:0, temp:27, ok:0, s:'bos', du:100, nt:'No Āzijas uz Eiropu pa Bosfora šaurumu. Notiek augusta beigās; ārzemniekiem ir kvotas.'},
+  {d:'gf100', r:'balt', n:'Tartu Rattaralli', km:'135 km', date:'2027-06-06', pl:'Tartu, Igaunija', time:'11:00', tOk:1, tz:0, temp:20, ok:1, s:'tr'}
+];
+
+window.GS_CATALOG = {updated:'2026-11-11', SRC, REG, RACES};
+})();
+
+}
+</script>
+<script>
+// ---------- dati ----------
+const DIST = {
+  sprint: {km:'0,75 + 20 + 5 km', sport:'tri', label:'Triatlons · sprints (0,75 + 20 + 5 km)', sub:'0,75 km + 20 km + 5 km', taper:1, hours:[4,6,8], share:{swim:.22,bike:.43,run:.35}, cap:{run:60,bike:100}, fuel:'0–30 g/h', load:false, dur:[100,80,70]},
+  olympic:{km:'1,5 + 40 + 10 km', sport:'tri', label:'Triatlons · olimpiskā (1,5 + 40 + 10 km)', sub:'1,5 km + 40 km + 10 km', taper:2, hours:[5,8,10], share:{swim:.2,bike:.47,run:.33}, cap:{run:90,bike:150}, fuel:'30–60 g/h', load:false, dur:[200,165,140]},
+  half:   {km:'1,9 + 90 + 21,1 km', sport:'tri', label:'Triatlons · vidējā / 70.3 (1,9 + 90 + 21,1 km)', sub:'1,9 km + 90 km + 21,1 km', taper:2, hours:[7,10,12], share:{swim:.18,bike:.5,run:.32}, cap:{run:120,bike:210}, fuel:'60–90 g/h', load:true, dur:[420,345,300]},
+  full:   {km:'3,8 + 180 + 42,2 km', sport:'tri', label:'Triatlons · pilnā (3,8 + 180 + 42,2 km)', sub:'3,8 km + 180 km + 42,2 km', taper:3, hours:[9,12,15], share:{swim:.17,bike:.52,run:.31}, cap:{run:150,bike:330}, fuel:'80–90 g/h', load:true, dur:[900,750,630]},
+  r5:     {km:'5 km', sport:'run', label:'Skriešana · 5 km', sub:'5 km', taper:1, hours:[3,4,6], cap:{run:70}, fuel:'nav vajadzīgi', load:false, dur:[35,28,22]},
+  r10:    {km:'10 km', sport:'run', label:'Skriešana · 10 km', sub:'10 km', taper:1, hours:[3,5,7], cap:{run:90}, fuel:'nav vajadzīgi', load:false, dur:[70,55,45]},
+  hm:     {km:'21,1 km', sport:'run', label:'Skriešana · pusmaratons', sub:'21,1 km', taper:2, hours:[4,6,8], cap:{run:120}, fuel:'30–60 g/h', load:false, dur:[150,120,100]},
+  m:      {km:'42,2 km', sport:'run', label:'Skriešana · maratons', sub:'42,2 km', taper:3, hours:[5,7,10], cap:{run:180}, fuel:'60–90 g/h', load:true, dur:[300,240,200]},
+  gf100:  {km:'100–140 km', sport:'bike', label:'Riteņbraukšana · līdz 140 km', sub:'gran fondo, 100–140 km', taper:1, hours:[4,6,9], cap:{bike:240}, fuel:'60–80 g/h', load:false, dur:[270,225,195]},
+  gf160:  {km:'150 km+', sport:'bike', label:'Riteņbraukšana · 150 km+', sub:'gran fondo, 150 km un vairāk', taper:2, hours:[6,8,11], cap:{bike:330}, fuel:'60–90 g/h', load:true, dur:[450,380,330]},
+  grv1:   {km:'līdz 100 km', sport:'bike', gravel:true, label:'Riteņbraukšana · gravel līdz 100 km', sub:'gravel, līdz 100 km', taper:1, hours:[4,6,8], cap:{bike:240}, fuel:'60–80 g/h', load:false, dur:[300,240,200]},
+  grv2:   {km:'100–200 km', sport:'bike', gravel:true, label:'Riteņbraukšana · gravel 100–200 km', sub:'gravel, 100–200 km', taper:2, hours:[6,8,11], cap:{bike:330}, fuel:'60–90 g/h', load:true, dur:[540,450,360]},
+  grv3:   {km:'200 km+', sport:'bike', gravel:true, label:'Riteņbraukšana · gravel 200 km+', sub:'gravel ultra, 200 km un vairāk', taper:2, hours:[7,10,13], cap:{bike:420}, fuel:'60–90 g/h', load:true, dur:[1080,840,660]},
+  mtb1:   {km:'līdz 50 km', sport:'bike', mtb:true, label:'Riteņbraukšana · MTB līdz 50 km', sub:'MTB maratons, līdz 50 km', taper:1, hours:[4,6,8], cap:{bike:180}, fuel:'30–60 g/h', load:false, dur:[180,135,105]},
+  mtb2:   {km:'50–100 km', sport:'bike', mtb:true, label:'Riteņbraukšana · MTB 50–100 km', sub:'MTB maratons, 50–100 km', taper:2, hours:[5,7,10], cap:{bike:270}, fuel:'60–90 g/h', load:true, dur:[360,285,230]},
+  t15:    {km:'līdz 15 km', sport:'ultra', label:'Taku skriešana un ultra · līdz 15 km', sub:'taku skrējiens līdz 15 km', taper:1, hours:[3,4,6], cap:{run:90}, fuel:'nav vajadzīgi', load:false, dur:[100,80,65]},
+  t30:    {km:'15–40 km', sport:'ultra', label:'Taku skriešana un ultra · 15–40 km', sub:'taku skrējiens 15–40 km', taper:1, hours:[4,6,8], cap:{run:180}, fuel:'30–60 g/h', load:false, dur:[240,190,150]},
+  u50:    {km:'40–80 km', sport:'ultra', label:'Taku skriešana un ultra · 40–80 km', sub:'taku ultramaratons, 40–80 km', b2b:true, taper:2, hours:[6,8,10], cap:{run:240}, fuel:'60–90 g/h', load:true, dur:[600,480,390]},
+  u100:   {km:'80–130 km', sport:'ultra', label:'Taku skriešana un ultra · 80–130 km', sub:'ultramaratons, 80–130 km', b2b:true, taper:3, hours:[7,10,12], cap:{run:300}, fuel:'60–90 g/h', load:true, dur:[1080,900,720]},
+  u160:   {km:'140 km+', sport:'ultra', label:'Taku skriešana un ultra · 140 km+', sub:'140 km un vairāk (100 jūdzes)', b2b:true, taper:3, hours:[8,11,14], cap:{run:360}, fuel:'60–90 g/h', load:true, dur:[2520,2040,1560]},
+  ow5:    {km:'1–6 km', sport:'swim', label:'Peldēšana atklātā ūdenī · līdz 6 km', sub:'atklātais ūdens, 1–6 km', taper:1, hours:[3,5,7], cap:{swim:90}, fuel:'nav vajadzīgi', load:false, dur:[120,90,70]},
+  ow10:   {km:'10 km+', sport:'swim', label:'Peldēšana atklātā ūdenī · 10 km+', sub:'maratona peldējums, 10 km un vairāk', taper:2, hours:[5,7,10], cap:{swim:210}, fuel:'30–60 g/h (ēdināšana no laivas vai pontona)', load:false, dur:[270,210,170]}
+};
+const SPORTN = {tri:'Triatlons', run:'Skriešana', ultra:'Taku skriešana un ultra', bike:'Riteņbraukšana', swim:'Peldēšana atklātā ūdenī'};
+const EXAMPLE = {slot:'both', cross:'opt', dist:'olympic', name:'Olimpiskā distance (piemērs)', date:'', time:'08:00', place:'Jūrmala, Latvija', tz:0, temp:20, age:35, sex:'m', weight:80, height:180, level:'mid', hours:8, ftp:'', lthr:'', am:'07:00', pm:'18:30', we:'09:00', rest:[0], inj:'none', health:false, example:true};
+const lvlI = l => l==='beg' ? 0 : l==='adv' ? 2 : 1;
+const INJ = {
+  leg:'Plāns pielāgots kāju traumai: skriešanas apjoms samazināts par 20 %, bez kalniem un sprinta pamatu un būvēšanas fāzē. Ja sāp, pārtrauc un konsultējies ar fizioterapeitu.',
+  back:'Plāns pielāgots muguras vai gūžu traumai: spēka treniņos bez smagām vilkmēm un pietupieniem ar stieni. Pārbaudi velo pozīciju. Ja sāp, konsultējies ar fizioterapeitu.',
+  shoulder:'Plāns pielāgots pleca traumai: peldēšanas apjoms samazināts par 30 %, vairāk kāju darba un drillu, bez lāpstiņām. Ja sāp, konsultējies ar fizioterapeitu.'
+};
+
+// ---------- sacensību katalogs: races.js (atjaunojams atsevišķi) ----------
+const CAT = window.GS_CATALOG || {updated:'', SRC:{}, REG:{}, RACES:[]};
+const SRC = CAT.SRC, REG = CAT.REG;
+const RACES = (CAT.RACES||[]).map(x=>({...x, id: x.id || (x.d+':'+x.n)}));
+const raceKm = x => x.km || (DIST[x.d] && DIST[x.d].km) || '';
+const DAYN = ['Pirmdiena','Otrdiena','Trešdiena','Ceturtdiena','Piektdiena','Sestdiena','Svētdiena'];
+const PH = {base:'Pamati', build:'Būvēšana', spec:'Specifiskā', taper:'Tapering'};
+const PHTXT = {
+  base:'Aerobā bāze un tehnika. Lielākā daļa treniņu Z2, spēka pamati, regulāritāte bez traumām.',
+  build:'Slieksnis un sacensību temps. Intervāli kļūst garāki, garie treniņi aug, sāc trenēt ēšanu.',
+  spec:'Sacensību simulācija: sacensību temps garajos treniņos, sacensību ēdiens un ekipējums.',
+  taper:'Apjoms krītas, intensitāte paliek. Ķermenis atjaunojas un uzkrāj formu startam.'
+};
+
+// ---------- palīgi ----------
+const $ = id => document.getElementById(id);
+const r5 = x => Math.max(5, Math.round(x/5)*5);
+const hm = m => { m = Math.round(m); const h = Math.floor(m/60), mm = m%60; return h ? `${h}:${String(mm).padStart(2,'0')} h` : `${mm} min`; };
+const pad = v => String(v).padStart(2,'0');
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const dOnly = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+const addD = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const fmtD = d => d.toLocaleDateString('lv-LV',{day:'numeric',month:'short'});
+const toM = t => { const [h,m] = String(t||'07:00').split(':').map(Number); return (h||0)*60+(m||0); };
+const fmtM = m => `${pad(Math.floor(m/60)%24)}:${pad(m%60)}`;
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function mondayOf(d){ const x = dOnly(d); const wd = (x.getDay()+6)%7; return addD(x,-wd); }
+
+// ---------- profils ----------
+let P;
+function defaultDate(){ return ymd(addD(mondayOf(new Date()), 7*20 + 6)); } // svētdiena pēc ~20 ned.
+function loadProfile(){
+  let p = null;
+  try{ const s = localStorage.getItem('gs_profile'); if(s) p = JSON.parse(s); }catch(e){ p = null; }
+  if(!p || !DIST[p.dist]) p = {...EXAMPLE, date: defaultDate()};
+  if(!Array.isArray(p.rest)) p.rest = [0];
+  if(!Array.isArray(p.extra)) p.extra = [];
+  if(!['both','am','pm'].includes(p.slot)) p.slot = 'both';
+  if(!['no','opt','yes'].includes(p.cross)) p.cross = 'opt';
+  if(!INJ[p.inj]) p.inj = 'none';
+  p.health = !!p.health;
+  return p;
+}
+function saveProfile(p){ try{ localStorage.setItem('gs_profile', JSON.stringify(p)); return true; }catch(e){ return false; } }
+
+// ---------- plāna dzinējs ----------
+function buildPlan(p){
+  const D = DIST[p.dist];
+  const race = new Date(`${p.date}T${p.time||'08:00'}`);
+  const raceDay = dOnly(race);
+  const start = mondayOf(new Date());
+  let N = Math.floor((raceDay - start)/864e5/7) + 1;
+  const note = [];
+  if(N < 4){ note.push('Līdz startam ir mazāk par 4 nedēļām: plāns ir saīsināts, apjomu nepalielini.'); }
+  N = Math.max(1, Math.min(N, 60));
+  const T = Math.min(D.taper, N);
+  const R = N - T;
+  const spec = Math.round(R*0.25), build = Math.round(R*0.3), base = R - spec - build;
+  const lvl = p.level || 'mid';
+  const H = Math.max(2, Math.min(25, +p.hours || D.hours[lvlI(lvl)]));
+  const startPct = lvl==='beg' ? .6 : lvl==='adv' ? .75 : .7;
+  const taperF = {1:[.5],2:[.65,.45],3:[.75,.6,.4]}[T] || [];
+  // Apjoms aug ģeometriski: slodzes nedēļa pret iepriekšējo slodzes nedēļu ne vairāk kā +10 %.
+  const isRec = i => (i+1)%4===0 && i < R-1;
+  let loadWeeks = 0; for(let i=0;i<R;i++) if(!isRec(i)) loadWeeks++;
+  const g = loadWeeks > 1 ? Math.min(.10, Math.pow(1/startPct, 1/(loadWeeks-1)) - 1) : 0;
+  const peak = loadWeeks > 0 ? Math.min(1, startPct*Math.pow(1+g, loadWeeks-1)) : startPct;
+  if(peak < .97) note.push(`Lai apjoms augtu ne vairāk kā par 10 % nedēļā, plāns sasniedz ~${(Math.round(H*peak*10)/10).toLocaleString('lv-LV')} h nedēļā, nevis ${H} h.`);
+  const rest = (p.rest||[]).map(Number);
+  const trainDays = 7 - rest.length, bundles = D.sport==='tri' ? 6 : 5;
+  if(trainDays < bundles) note.push(`Ar ${trainDays} treniņu dienām daži treniņi ir apvienoti vienā dienā, vieglākie atzīmēti kā "pēc izvēles".`);
+  const weeks = [];
+  let k = 0, lastLoad = startPct;
+  for(let i=0;i<N;i++){
+    let phase, f, rec=false;
+    if(i >= R){ phase='taper'; f = (taperF[i-R] ?? .5) * peak; }
+    else {
+      phase = i < base ? 'base' : i < base+build ? 'build' : 'spec';
+      if(isRec(i)){ rec = true; f = lastLoad * .65; }
+      else { f = Math.min(1, startPct*Math.pow(1+g, k)); k++; lastLoad = f; }
+    }
+    const wStart = addD(start, i*7);
+    const test = phase!=='taper' && !rec && (i===0 || (i%8===0 && i < R-2));
+    const isRaceWeek = i===N-1;
+    weeks.push({i, n:i+1, phase, rec, f, mins: H*60*f, start:wStart, test, raceWeek:isRaceWeek, days: makeDays(p, D, phase, rec, H*60*f, test, isRaceWeek ? (raceDay - wStart)/864e5 : -1, i)});
+  }
+  const season = applyExtras(weeks, p, start, raceDay, note);
+  return {D, N, weeks, race, raceDay, start, H, peak, note, season, phases:{base, build, spec, taper:T}};
+}
+
+function S(cls, type, label, min, txt, opt){ return {cls, type, label, min: Math.round(min), txt, opt:!!opt}; }
+
+function makeDays(p, D, phase, rec, mins, test, raceIdx, wi){
+  let days = [[],[],[],[],[],[],[]];
+  const lvl = p.level || 'mid';
+  const strMin = phase==='taper' ? 20 : lvl==='beg' ? 25 : 35;
+  const mobMin = 20;
+  const sh = D.sport==='tri' ? D.share : null;
+  const cap = (k,v) => D.cap && D.cap[k] ? Math.min(D.cap[k], v) : v;
+  const end = mins - (phase!=='taper' ? strMin + mobMin : mobMin); // izturības minūtes
+  if(D.sport==='tri'){
+    const sw = end*sh.swim, bk = end*sh.bike, rn = end*sh.run;
+    const brick = (phase==='build' || phase==='spec') ? Math.min(30, r5(rn*.1)) : 0;
+    days[0].push(S('str','mob','Mobilitāte un saites', mobMin, T.mob));
+    days[1].push(S('swim','swim_tech','Peldēšana: tehnika', r5(sw*.5), T.swim_tech[phase]));
+    days[1].push(S('bike','bike_int','Velo: intervāli', r5(bk*.2), T.bike_int[phase]));
+    days[2].push(S('run','run_int','Skriešana: kvalitāte', r5(rn*.25), T.run_int[phase]));
+    if(phase!=='taper') days[2].push(S('str','str','Spēks', strMin, T.str[phase]));
+    days[3].push(S('swim','swim_end','Peldēšana: izturība', r5(sw*.5), T.swim_end[phase]));
+    days[3].push(S('bike','bike_end','Velo: Z2', r5(bk*.25), T.bike_end[phase]));
+    days[4].push(S('run','run_easy','Skriešana: viegli', r5(rn*.2), T.run_easy[phase]));
+    days[5].push(S('bike','bike_long','Garais velo', r5(cap('bike', bk*.55)), T.bike_long[phase]));
+    if(brick) days[5].push(S('run','brick','Pārejas skrējiens', brick, T.brick));
+    days[6].push(S('run','run_long','Garais skrējiens', r5(cap('run', rn*(brick ? .45 : .55))), T.run_long[phase]));
+  } else if(D.sport==='run'){
+    days[0].push(S('str','mob','Mobilitāte', mobMin, T.mob));
+    days[1].push(S('run','run_int','Intervāli', r5(end*.2), T.run_int[phase]));
+    days[2].push(S('run','run_easy','Viegls skrējiens', r5(end*.17), T.run_easy[phase]));
+    if(phase!=='taper') days[2].push(S('str','str','Spēks', strMin, T.str[phase]));
+    days[3].push(S('run','run_tempo','Tempa skrējiens', r5(end*.18), T.run_tempo[phase]));
+    days[5].push(S('run','run_easy','Viegls skrējiens', r5(end*.15), T.run_easy[phase]));
+    days[6].push(S('run','run_long','Garais skrējiens', r5(cap('run', end*.3)), T.run_long[phase]));
+  } else if(D.sport==='ultra'){
+    days[0].push(S('str','mob','Mobilitāte', mobMin, T.mob));
+    days[1].push(S('run','run_int','Kalni', r5(end*.15), T.run_hill[phase]));
+    days[2].push(S('run','run_easy','Viegls skrējiens', r5(end*.12), T.run_easy[phase]));
+    if(phase!=='taper') days[2].push(S('str','str','Spēks', strMin, T.str[phase]));
+    days[3].push(S('run','run_tempo','Tempo / slieksnis', r5(end*.14), T.run_tempo[phase]));
+    days[5].push(S('run','run_long','Garais pa takām', r5(cap('run', end*(D.b2b?.34:.3))), (D.b2b?T.ultra_long:T.trail_long)[phase]));
+    if(D.b2b) days[6].push(S('run','run_long2','Otrais garais (back-to-back)', r5(cap('run', end*.25)*.7), T.b2b[phase]));
+    else days[6].push(S('run','run_easy','Viegls skrējiens pa takām', r5(end*.15), T.run_easy[phase]));
+  } else if(D.sport==='swim'){
+    days[0].push(S('str','mob','Mobilitāte', mobMin, T.mob));
+    days[1].push(S('swim','swim_tech','Peldēšana: tehnika', r5(end*.2), T.swim_tech[phase]));
+    days[2].push(S('swim','swim_int','Peldēšana: intervāli', r5(end*.2), T.swim_int[phase]));
+    if(phase!=='taper') days[2].push(S('str','str','Sauszemes treniņš', strMin, T.dry));
+    days[3].push(S('swim','swim_end','Peldēšana: izturība', r5(end*.2), T.swim_end[phase]));
+    days[5].push(S('swim','swim_long','Garais peldējums', r5(cap('swim', end*.3)), T.swim_long[phase]));
+    if(phase!=='taper' && p.cross!=='no') days[6].push(S('run','cross','Alternatīvs treniņš', r5(end*(p.cross==='yes'?.12:.1)), T.cross, p.cross!=='yes'));
+  } else {
+    days[0].push(S('str','mob','Mobilitāte', mobMin, T.mob));
+    days[1].push(S('bike','bike_int','Intervāli', r5(end*.2), T.bike_int[phase]));
+    days[2].push(S('bike','bike_easy', D.gravel ? 'Tehnika pa grantu' : D.mtb ? 'MTB tehnika' : 'Viegli', r5(end*.12), D.gravel ? T.grv_skill : D.mtb ? T.mtb_skill : T.bike_easy));
+    if(phase!=='taper') days[2].push(S('str','str','Spēks', strMin, T.str[phase]));
+    days[3].push(S('bike','bike_ss','Sweet spot', r5(end*.18), T.bike_ss[phase]));
+    days[5].push(S('bike','bike_long', D.gravel ? 'Garais gravel brauciens' : D.mtb ? 'Garais MTB brauciens' : 'Garais brauciens', r5(cap('bike', end*.35)), (D.gravel ? T.grv_long : D.mtb ? T.mtb_long : T.bike_long)[phase]));
+    days[6].push(S('bike','bike_end','Izturība Z2', r5(end*.15), T.bike_end[phase]));
+  }
+  if(p.cross==='yes' && phase!=='taper'){
+    if(D.sport==='run' || D.sport==='ultra'){
+      const e = days[2].find(x=>x.type==='run_easy');
+      if(e) days[2][days[2].indexOf(e)] = S('bike','cross','Alternatīvs treniņš', r5(e.min*1.2), T.cross_run);
+    } else if(D.sport==='bike'){
+      const e = days[2].find(x=>x.type==='bike_easy'); if(e) e.min = Math.max(20, e.min - 25);
+      days[4].push(S('run','cross','Viegla skriešana', 25, T.cross_bike));
+    }
+  }
+  days.forEach(d=>d.forEach(x=>{ if(x.min < 20 && x.cls!=='str') x.min = 20; }));
+  if(test){
+    days.forEach(d=>d.forEach(x=>{
+      if(x.type==='bike_int') { x.txt = 'TESTS: FTP (Ramp tests vai 20 min tests, FTP ≈ 95% no 20 min jaudas). Pēc tam atjauno profilu.'; x.test = true; }
+      if(x.type==='run_int') { x.txt = 'TESTS: 30 min vienmērīgi maksimāli. Vidējais pulss pēdējās 20 min ir tavs laktāta slieksnis.'; x.test = true; }
+      if(x.type==='swim_tech') { x.txt = 'TESTS: CSS. 400 m un 200 m maksimāli; CSS = (T400 − T200) / 2 uz 100 m.'; x.test = true; }
+    }));
+  }
+  if(rec) days.forEach(d=>d.forEach(x=>{ if(x.cls!=='str' && !x.test) x.txt = 'Atjaunošanās nedēļa: tikai Z1–Z2, bez intervāliem. ' + (x.cls==='swim' ? 'Tehnika un drilli.' : 'Jāspēj runāt pilnos teikumos.'); }));
+  applyInjury(days, p, D, phase, rec);
+  days = remapDays(days, (p.rest||[]).map(Number));
+  if(raceIdx >= 0){
+    const ri = Math.max(0, Math.min(6, Math.round(raceIdx)));
+    const dur = +p.dur || (D.dur||[180,180,180])[lvlI(lvl)];
+    for(let k=0;k<7;k++){
+      if(k > ri) days[k] = [];
+      else if(k === ri) days[k] = [S('race','race', `STARTS: ${p.name || D.label.split(' · ').pop()}`, dur, `${esc(p.name||'Sacensības')}${p.place?', '+esc(p.place):''}. Aptuvenais ilgums ~${hm(dur)} (novērtējums pēc distances un pieredzes). Startē mierīgi, turi plānoto tempu, ēd pēc plāna (${D.fuel}). Veiksmi!`)];
+      else if(k === ri-1) days[k] = [S(D.sport==='run'||D.sport==='ultra'?'run':D.sport==='swim'?'swim':'bike','opener','Iekustināšanās', 20, 'Ļoti viegli ar 3–4 īsiem paātrinājumiem. Sagatavo ekipējumu, ēd vairāk ogļhidrātu.')];
+      else if(k === ri-2) days[k] = [S('str','mob','Atpūta + mobilitāte', 15, 'Viegla kustība, stiepšanās. Ja distance ir gara, sāc ogļhidrātu uzpildi.')];
+    }
+  }
+  return days;
+}
+
+// Sezonas B/C sacensības: maina treniņus ap starta dienu.
+const easyOf = x => ({...x, type: x.cls+'_easy', min: Math.max(20, r5(x.min*.6)), txt: 'Sacensību dēļ: viegli Z1–Z2, bez intervāliem.', label: x.label.replace(/:.*$/,'') + ': viegli', test:false});
+const isHard = x => /_int|tempo|_ss|brick/.test(x.type) || x.test;
+function applyExtras(weeks, p, start, raceDay, note){
+  const out = [];
+  const lvl = p.level || 'mid';
+  const list = (p.extra||[]).filter(x=>x && x.date).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const at = (wi, di) => { while(di < 0){ wi--; di += 7; } while(di > 6){ wi++; di -= 7; } return weeks[wi] ? {W:weeks[wi], di} : null; };
+  const mainCls = DIST[p.dist].sport==='swim' ? 'swim' : DIST[p.dist].sport==='bike' ? 'bike' : 'run';
+  list.forEach(x=>{
+    const d = dOnly(new Date(x.date+'T12:00'));
+    const diff = Math.round((d - start)/864e5);
+    const row = {...x, status:'', wi:null};
+    if(d >= raceDay){ row.status = d.getTime()===raceDay.getTime() ? 'Tajā pašā dienā, kad galvenās sacensības: netiek ņemts vērā.' : 'Pēc galvenajām sacensībām: plāns beidzas ar galveno startu, tāpēc šis starts plānā nav iekļauts.'; out.push(row); return; }
+    if(diff < 0){ row.status = 'Jau pagājis.'; out.push(row); return; }
+    const wi = Math.floor(diff/7), di = diff%7; row.wi = wi;
+    const XD = DIST[x.d] || DIST[p.dist];
+    const dur = +x.du || (XD.dur||[120,120,120])[lvlI(lvl)];
+    const pri = x.pri==='B' ? 'B' : 'C';
+    const daysToA = Math.round((raceDay - d)/864e5);
+    const rs = S('race','race', `${pri} starts: ${x.n}`, dur, `${esc(x.n)}${x.km?' ('+esc(x.km)+')':''}${x.pl?', '+esc(x.pl):''}. ${pri==='B' ? 'Svarīgs starts: ar pilnu atdevi, ēd pēc sacensību plāna.' : 'Treniņa starts: kontrolēta piepūle, trenē tempu, ēdienu un ekipējumu, nedzenies pēc rezultāta.'} Aptuvenais ilgums ~${hm(dur)}.`);
+    rs.at = toM(x.time||'10:00'); rs.pl = x.pl||''; rs.extra = pri;
+    const cur = at(wi, di); cur.W.days[cur.di] = [rs];
+    cur.W.extra = (cur.W.extra||[]).concat(pri);
+    if(pri==='B'){
+      const b1 = at(wi, di-1); if(b1 && !b1.W.days[b1.di].some(s=>s.type==='race')) b1.W.days[b1.di] = [S(mainCls,'opener','Iekustināšanās', 20, `Rīt ${esc(x.n)}: ļoti viegli ar 3–4 īsiem paātrinājumiem, sagatavo ekipējumu.`)];
+      const b2 = at(wi, di-2); if(b2) b2.W.days[b2.di] = b2.W.days[b2.di].map(s=>s.type==='race'?s:(isHard(s)||/_long/.test(s.type)) ? easyOf(s) : s);
+      const long = dur > 180;
+      const a1 = at(wi, di+1); if(a1 && !a1.W.days[a1.di].some(s=>s.type==='race')) a1.W.days[a1.di] = long ? [S('str','mob','Atpūta pēc starta', 15, 'Atpūta: viegla pastaiga, stiepšanās, daudz ēdiena un miega.')] : [S(mainCls,'recovery','Atjaunošanās', 30, 'Pēc B starta: ļoti viegli Z1.')];
+      const a2 = at(wi, di+2); if(a2) a2.W.days[a2.di] = a2.W.days[a2.di].map(s=>s.type==='race'?s:(isHard(s) ? easyOf(s) : s));
+      if(daysToA < 21) row.status = 'Mazāk nekā 3 nedēļas līdz galvenajām sacensībām: B starts var traucēt atjaunoties. Apsver C prioritāti.';
+    } else {
+      const b1 = at(wi, di-1); if(b1) b1.W.days[b1.di] = b1.W.days[b1.di].map(s=>s.type==='race'?s:(isHard(s) ? easyOf(s) : s));
+      const a1 = at(wi, di+1); if(a1) a1.W.days[a1.di] = a1.W.days[a1.di].map(s=>s.type==='race'?s:(isHard(s)||/_long/.test(s.type)) ? {...easyOf(s), min: Math.max(20, r5(s.min*.5))} : s);
+      if(daysToA < 10) row.status = 'Mazāk nekā 10 dienas līdz galvenajām sacensībām: ļoti viegli vai izlaid.';
+    }
+    if(weeks[wi].phase==='taper' && !row.status) row.status = 'Iekrīt tapering nedēļās: piepūli turi zemu.';
+    out.push(row);
+  });
+  const bs = out.filter(r=>r.pri==='B' && r.wi!==null).map(r=>new Date(r.date+'T12:00'));
+  for(let i=1;i<bs.length;i++) if((bs[i]-bs[i-1])/864e5 < 14){ note.push('Daži B starti ir tuvāk par 2 nedēļām viens otram: apsver dažiem C prioritāti.'); break; }
+  return out;
+}
+
+// Traumas: samazina riskanto disciplīnu, triatlonā minūtes pārceļ uz velo.
+function applyInjury(days, p, D, phase, rec){
+  const inj = p.inj || 'none';
+  if(inj==='none') return;
+  const all = days.flat();
+  const bikeZ2 = all.find(x=>x.type==='bike_end');
+  let moved = 0;
+  if(inj==='leg'){
+    all.filter(x=>x.cls==='run').forEach(x=>{
+      const nm = r5(x.min*.8); moved += x.min - nm; x.min = Math.max(20, nm);
+      if(x.test){ x.test = false; x.txt = 'Skriešanas tests atlikts traumas dēļ: viegli Z2. Laktāta slieksni nosaki, kad kājas ir veselas.'; }
+      else if(!rec && (phase==='base'||phase==='build') && (x.type==='run_int'||x.type==='run_tempo'))
+        x.txt = 'Traumas dēļ: vienmērīgi Z2 pa mīkstu segumu, bez kalniem un paātrinājumiem.';
+    });
+    if((D.sport==='run'||D.sport==='ultra') && moved >= 20) days[4].push(S('bike','cross','Alternatīvs treniņš', r5(moved), 'Velo, peldēšana vai eliptiskais trenažieris Z2. Aizstāj daļu skriešanas, lai kājas atkoptos.', true));
+  }
+  if(inj==='shoulder' && (D.sport==='tri'||D.sport==='swim')){
+    all.filter(x=>x.cls==='swim').forEach(x=>{
+      const nm = Math.max(20, r5(x.min*.7)); moved += x.min - nm; x.min = nm;
+      if(!x.test) x.txt = 'Pleca dēļ: vairāk kāju darba un drillu, bez lāpstiņām. ' + x.txt;
+    });
+  }
+  if(inj==='back'){
+    all.filter(x=>x.type==='str').forEach(x=>{ x.txt = 'Traumas dēļ bez smagām vilkmēm un pietupieniem ar stieni: izvēlies vieglākus variantus un korpusa stabilitāti. 2–3×10.'; });
+  }
+  if(D.sport==='tri' && bikeZ2 && moved > 0) bikeZ2.min = r5(bikeZ2.min + moved);
+  if(D.sport==='swim' && inj==='shoulder' && moved >= 20) days[4].push(S('run','cross','Alternatīvs treniņš', r5(moved), 'Pleca dēļ daļu apjoma aizstāj ar velo vai skriešanu Z2.', true));
+}
+
+// Atpūtas dienas: treniņu kopas pārliek uz brīvajām dienām; garie treniņi pirmie, tad kvalitāte, tad vieglie.
+function remapDays(days, rest){
+  const restS = new Set(rest.filter(d=>d>=0 && d<=6));
+  const train = [0,1,2,3,4,5,6].filter(d=>!restS.has(d));
+  if(!train.length) return days;
+  const out = [[],[],[],[],[],[],[]];
+  const mob = [], bundles = [];
+  days.forEach((d,i)=>{
+    mob.push(...d.filter(x=>x.type==='mob'));
+    const o = d.filter(x=>x.type!=='mob');
+    if(o.length) bundles.push({pref:i, items:o});
+  });
+  const pri = b => b.items.some(x=>/long/.test(x.type)) ? 0 : b.items.some(x=>/_int|tempo|_ss/.test(x.type)) ? 1 : b.items.every(x=>x.opt) ? 3 : 2;
+  const load = d => d.filter(x=>!x.opt).reduce((a,x)=>a+x.min,0);
+  const loadAll = d => d.reduce((a,x)=>a+x.min,0);
+  bundles.sort((a,b)=>pri(a)-pri(b) || (pri(a)>=2 ? loadAll(b.items)-loadAll(a.items) : b.pref-a.pref));
+  const used = new Set();
+  bundles.forEach(b=>{
+    const free = train.filter(d=>!used.has(d));
+    if(free.length){
+      const d = free.reduce((best,d)=>{ const da = Math.abs(d-b.pref), db = Math.abs(best-b.pref); return da < db || (da===db && d > best) ? d : best; }, free[0]);
+      used.add(d); out[d].push(...b.items);
+    } else {
+      const d = train.reduce((best,d)=> loadAll(out[d]) < loadAll(out[best]) ? d : best, train[0]);
+      out[d].push(...b.items.map(x => pri(b)>=2 ? {...x, opt:true} : x));
+    }
+  });
+  // Tukšas treniņu dienas: sadala lielāko vieglo treniņu, lai nedēļas apjoms paliek tas pats.
+  train.filter(d=>!out[d].length).forEach(d=>{
+    let donor = null, dd = -1;
+    out.forEach((day,i)=>day.forEach(x=>{ if(!x.opt && /easy|_end/.test(x.type) && x.min >= 40 && (!donor || x.min > donor.min)){ donor = x; dd = i; } }));
+    if(donor){
+      const half = r5(donor.min/2);
+      out[d].push({...donor, min: donor.min - half, label: donor.label.replace(/^Otrais garais.*$/,'Viegls skrējiens')});
+      donor.min = half;
+    } else if(mob.length){
+      out[d].push(...mob.splice(0, mob.length).map(x=>({...x, label:'Mobilitāte un stiepšanās', txt:'Viegla mobilitāte, korpuss, masāžas rullis.'})));
+    }
+  });
+  if(mob.length){
+    const r = [...restS].sort()[0];
+    const restMob = x => ({...x, opt:true, label:'Atpūta + mobilitāte', txt:'Atpūtas diena. Ja gribas kustēties: 15–20 min mobilitāte un masāžas rullis.'});
+    if(r !== undefined) out[r].push(...mob.map(restMob));
+    else { const e = train.find(d=>!out[d].length); if(e!==undefined) out[e].push(...mob); else out[train[0]].push(...mob.map(x=>({...x, opt:true}))); }
+  }
+  return out;
+}
+
+const T = {
+  mob:'Ikru un potīšu stabilitāte, gūžu mobilitāte, korpuss, masāžas rullis. Atpūtas diena.',
+  str:{base:'Pietupieni, rumāņu vilkme, izklupieni, airēšana, korpuss. 3×8–10.', build:'Tie paši vingrinājumi, svaru vairs nepalielini. 3×6–8.', spec:'Saglabāšana: 2 sērijas galvenajiem vingrinājumiem.', taper:''},
+  swim_tech:{base:'Iesildīšanās, drilli (catch-up, sānu elpošana), 8–12×50 m mierīgi ar 20 s pauzi.', build:'Drilli + 6–10×100 m CSS tempā ar 15–20 s pauzi.', spec:'3×400 m sacensību tempā + 4×100 m nedaudz ātrāk.', taper:'Īsāk: 6×100 m sacensību tempā, pārējais viegli.'},
+  swim_end:{base:'Garākas sērijas vienmērīgi (CSS + 8–10 s), mērķis peldēt bez apstāšanās.', build:'3–4×400 m vienmērīgi; ja var, atklātā ūdenī ar hidrotērpu.', spec:'Nepārtraukti sacensību distance vai ~80% no tās, navigācija.', taper:'Viegli vienmērīgi, 4×100 m sacensību tempā.'},
+  bike_int:{base:'Z2 + 6×30 s augsta kadence. Kadence 85–95.', build:'Sweet spot: 3×10–15 min 88–93% FTP, 5 min pauze.', spec:'Sacensību temps: 2×20–30 min, starp tiem Z2.', taper:'3×5 min sacensību tempā, pārējais viegli.'},
+  bike_end:{base:'Vienmērīgi Z2 (56–75% FTP).', build:'Z2 + 2×10 min tempo (76–85% FTP).', spec:'Z2 ar 2×15 min sacensību tempā.', taper:'Viegli Z2.'},
+  bike_long:{base:'Z2 vienmērīgi, ēd ik 20 min.', build:'Z2 ar 2–3×20 min sacensību tempā. Ēd 60–80 g/h.', spec:'Sacensību simulācija: lielākā daļa sacensību tempā, sacensību ēdiens.', taper:'Z2, 2×10 min sacensību tempā.'},
+  bike_ss:{base:'Z2 + 3×8 min 85–90% FTP.', build:'3×12–15 min 88–93% FTP.', spec:'2×20 min 88–92% FTP.', taper:'2×8 min, pārējais viegli.'},
+  bike_easy:'Viegli Z1–Z2, augsta kadence, atjaunošanās.',
+  run_int:{base:'Viegli Z2 + 6×20 s paātrinājumi.', build:'Kalni vai intervāli: 6–10×1–3 min Z4, pauze viegli.', spec:'Sacensību temps: 2–3×10–15 min, starp tiem viegli.', taper:'Viegli + 4×2 min sacensību tempā.'},
+  run_tempo:{base:'Viegli ar 3×5 min tempo (Z3).', build:'2–3×10 min slieksnī (Z4).', spec:'20–30 min sacensību tempā.', taper:'10 min sacensību tempā, pārējais viegli.'},
+  run_easy:{base:'Ļoti viegli Z1–Z2, pa mīkstu segumu.', build:'Viegli Z2 + 4×20 s paātrinājumi.', spec:'Viegli Z2, kājām jābūt svaigām.', taper:'Viegli, īsi.'},
+  run_long:{base:'Vienmērīgi Z2. Var pārmaiņus ar soļošanu.', build:'Z2, pēdējās 15–20 min sacensību tempā.', spec:'Z2 ar 30–45 min sacensību tempā vidusdaļā, trenē gēlus.', taper:'Viegli Z2, saglabā ritmu.'},
+  run_hill:{base:'Viegli Z2 pa paugurainu apvidu + 6×20 s kāpumi.', build:'Kalnu intervāli: 6–10×2–4 min kāpumā Z4, lejā viegli. Trenē nūjas, ja tās izmantosi.', spec:'Gari kāpumi sacensību piepūlē: 3–4×10–15 min, lejupskriešanas tehnika.', taper:'Viegli + 4×2 min kāpumā, kājām jābūt svaigām.'},
+  ultra_long:{base:'Vienmērīgi Z1–Z2 pa takām, kāpumos soļo. Ēd ik 30–40 min.', build:'Garais pa sacensībām līdzīgu reljefu, 60–90 g ogļhidrātu stundā, sacensību mugursoma.', spec:'Sacensību simulācija: tas pats ekipējums, ēdiens un nūjas. Ja sacensības ilgst pa nakti, daļu skrien ar lukturi.', taper:'Viegli Z2, saglabā ritmu.'},
+  grv_skill:'Z1–Z2 pa grants ceļiem un takām: līkumi, bremzēšana smiltīs, braukšana stāvus, ēšana braucot. Pārbaudi riepu spiedienu.',
+  grv_long:{base:'Z2 pa grants ceļiem, ēd ik 20 min. Iepazīsti savu riepu spiedienu un pozīciju.', build:'Z2 ar 2–3×15 min sacensību tempā pa grantu, 60–90 g/h. Trenē ātrus kāpumus no sēdekļa.', spec:'Sacensību simulācija ar sacensību riepām, somām un ēdienu; trenē riepas labošanu.', taper:'Z2, 2×10 min sacensību tempā.'},
+  mtb_skill:'Z1–Z2 takās: līkumi, saknes, stāvi nobraucieni, kāpumi no vietas, ēšana braucot. Pārbaudi dakšu un riepas.',
+  mtb_long:{base:'Z2 pa meža takām un grants ceļiem, ēd ik 20 min.', build:'Z2 ar 4–6×5 min jaudīgiem kāpumiem (Z4) takās. MTB maratoni sākas ātri: trenē arī 2–3 min startu.', spec:'Sacensību simulācija pa līdzīgu trasi ar sacensību riepām un ēdienu.', taper:'Z2, 3×3 min sacensību tempā.'},
+  trail_long:{base:'Vienmērīgi Z2 pa takām: mācies skriet pa saknēm, smiltīm un mīkstu segumu.', build:'Garais pa paugurainām takām, pēdējās 20 min sacensību piepūlē.', spec:'Sacensību simulācija pa līdzīgu reljefu; trenē lejupskriešanu un ēšanu, ja ilgāk par 75 min.', taper:'Viegli Z2, saglabā ritmu.'},
+  b2b:{base:'Dienu pēc garā: viegli Z2 uz nogurušām kājām.', build:'Back-to-back: vienmērīgi Z2, pēdējā stundā sacensību piepūle.', spec:'Back-to-back pa takām ar sacensību ēdienu: kājas mācās skriet nogurušas.', taper:'Īsi un viegli.'},
+  swim_int:{base:'10×100 m CSS + 5 s/100 m, 15 s pauze; roku sērija ar dēlīti.', build:'Sliekšņa sērijas: 4×400 m vai 8×200 m CSS tempā, 20 s pauze.', spec:'Sacensību temps: 3×1000 m, starp tiem 200 m viegli; 10 km+ distancē trenē ēšanu.', taper:'6×100 m sacensību tempā, pārējais viegli.'},
+  swim_long:{base:'Vienmērīgi garāks peldējums, mērķis 30–45 min bez apstāšanās.', build:'Garš peldējums atklātā ūdenī ar drošības boju vai grupā: navigācija ik 6–9 vēzienus.', spec:'Sacensību simulācija atklātā ūdenī: tas pats tērps, līdzīga ūdens temperatūra un ēdiens.', taper:'Viegli un īsi, ar 4×100 m sacensību tempā.'},
+  dry:'Plecu stabilitāte ar gumiju, korpuss, vilkšana, krūšu daļas mobilitāte. 2–3×10–12.',
+  cross:'Viegls velo vai skrējiens Z2 aerobajai bāzei.',
+  cross_run:'Velo, peldēšana vai eliptiskais trenažieris Z2: aerobais darbs bez triecienslodzes kājām.',
+  cross_bike:'Viegla skriešana Z1–Z2 vai 10 min lēcienu un spēka vingrinājumu: kauliem vajag triecienslodzi, ko velo nedod.',
+  brick:'Uzreiz pēc velo: pirmās 5 min viegli, tad sacensību tempā. Trenē ātru pārģērbšanos.'
+};
+
+// ---------- laiki ----------
+function schedule(day, list){
+  const am = toM(P.am||'07:00'), pmT = toM(P.pm||'18:30'), we = toM(P.we||'09:00');
+  const out = []; let longEnd = null;
+  list.forEach(x=>{
+    let t;
+    if(x.min===0){ out.push({...x, start:null, end:null}); return; }
+    if(x.type==='race') t = x.at ?? toM(P.time||'08:00');
+    else if(x.type==='brick' && longEnd!==null) t = longEnd;
+    else if(day>=5){
+      if(/_long/.test(x.type) || (day===6 && x.type==='bike_end')) t = we;
+      else t = (P.slot==='am'||P.slot==='pm') ? we : we + 7*60; // ar vienu treniņa laiku: pēc kārtas; citādi pēcpusdienā
+    } else {
+      if(P.slot==='am') t = am;
+      else if(P.slot==='pm') t = pmT;
+      else { t = (x.cls==='swim' || x.type==='str' || x.type==='mob') ? am : pmT; if(x.type==='mob') t = pmT; }
+    }
+    while(out.some(o=>o.start===t)) t = out.find(o=>o.start===t).end;
+    const s = {...x, start:t, end:t+x.min};
+    if(/_long/.test(x.type)) longEnd = s.end;
+    out.push(s);
+  });
+  return out.sort((a,b)=>(a.start??-1)-(b.start??-1));
+}
+
+// ---------- uzturs ----------
+function carbBand(mins){ if(mins<45) return [3,5,'Viegla']; if(mins<=120) return [5,7,'Vidēja']; if(mins<=240) return [6,8,'Gara']; return [8,10,'Ļoti gara']; }
+const sumMin = d => d.filter(x=>!x.opt && x.cls!=='str').reduce((a,x)=>a+x.min,0);
+
+// ---------- render ----------
+let PLAN, WK = 0;
+function curWeekIdx(){ const d = Math.floor((dOnly(new Date()) - PLAN.start)/864e5/7); return Math.max(0, Math.min(PLAN.N-1, d)); }
+function renderBib(){
+  const D = PLAN.D;
+  $('b-sport').textContent = D.label;
+  $('b-title').textContent = P.name || D.label;
+  const raceStr = PLAN.race.toLocaleDateString('lv-LV',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  $('b-meta').innerHTML = `<span>${esc(raceStr)}, ${esc(P.time||'08:00')}</span><span>${esc(P.place||'')}</span><span>${esc(D.sub)}</span>`;
+  $('example-banner').hidden = !P.example;
+  const hb = [];
+  if(P.health) hb.push('<b>Pirms sāc šo plānu, konsultējies ar ārstu.</b> Tu atzīmēji hronisku slimību vai ārsta noteiktu slodzes ierobežojumu. Sāc ar mazāku apjomu, nekā plānā, un intensīvos treniņus veic tikai ar ārsta atļauju.');
+  if(INJ[P.inj]) hb.push(INJ[P.inj]);
+  $('health-banner').innerHTML = hb.map(t=>`<p>${t}</p>`).join('');
+  $('health-banner').hidden = !hb.length;
+}
+function tick(){
+  const s = Math.floor(Math.max(0, PLAN.race - Date.now())/1000);
+  $('cd').textContent = `${Math.floor(s/86400)} d ${pad(Math.floor(s%86400/3600))} h ${pad(Math.floor(s%3600/60))} min ${pad(s%60)} s`;
+}
+function sessCard(x, nowM, isToday){
+  const past = isToday && x.start!==null && x.end <= nowM, cur = isToday && x.start!==null && x.start <= nowM && nowM < x.end;
+  return `<article class="sess ${x.cls}" style="${past?'opacity:.55;':''}${cur?'box-shadow:0 0 0 2px var(--accent);':''}">
+    <div class="t">${x.start!==null?`<b>${fmtM(x.start)}</b>līdz ${fmtM(x.end)}${x.end>=1440?' (+'+Math.floor(x.end/1440)+' d)':''}`:'<b>Visu dienu</b>'}</div>
+    <div class="h"><strong class="c-${x.cls}">${esc(x.label)}</strong><span class="mono muted" style="font-size:13px">${x.min?hm(x.min):''}${x.opt?' · pēc izvēles':''}${cur?' · tagad':''}</span></div>
+    <p>${x.txt}</p></article>`;
+}
+function dayPos(date){ const diff = Math.floor((dOnly(date) - PLAN.start)/864e5); return {wi: Math.floor(diff/7), d: ((diff%7)+7)%7, diff}; }
+function renderToday(){
+  const now = new Date(); const {wi, d} = dayPos(now);
+  $('td-date').textContent = now.toLocaleDateString('lv-LV',{weekday:'long', day:'numeric', month:'long'});
+  if(wi < 0 || wi >= PLAN.N){
+    $('td-title').textContent = wi < 0 ? 'Plāns sāksies pirmdien' : 'Sacensības ir aiz muguras';
+    $('td-list').innerHTML = ''; $('td-meta').textContent=''; $('td-fuel').hidden = true; $('td-phase').textContent=''; $('td-rec').hidden = true; $('td-tom').innerHTML=''; $('td-tom-title').hidden = true; return;
+  }
+  const W = PLAN.weeks[wi];
+  $('td-title').textContent = `Šodien · ${W.n}. nedēļa no ${PLAN.N}`;
+  $('td-phase').textContent = PH[W.phase]; $('td-rec').hidden = !W.rec;
+  const ss = schedule(d, W.days[d]);
+  const tot = ss.filter(x=>!x.opt).reduce((a,x)=>a+x.min,0);
+  $('td-meta').textContent = ss.length ? `Kopā ${hm(tot)}, ${ss.length} ${ss.length===1?'treniņš':'treniņi'}.` : 'Atpūtas diena.';
+  const nowM = now.getHours()*60 + now.getMinutes();
+  $('td-list').innerHTML = ss.length ? ss.map(x=>sessCard(x, nowM, true)).join('') : '<p class="muted">Šodien nav treniņu. Atpūties un ēd labi.</p>';
+  const kg = +P.weight || 75; const [a,b,lbl] = carbBand(sumMin(W.days[d]));
+  $('td-fuel').hidden = false;
+  $('td-fuel').innerHTML = `<h3>Šodienas uzturs · ${lbl.toLowerCase()} diena</h3><p><span class="mono">${Math.round(a*kg)}–${Math.round(b*kg)} g</span> ogļhidrātu un <span class="mono">${Math.round(1.6*kg)}–${Math.round(2*kg)} g</span> olbaltumvielu. Olbaltumvielas sadali 4–5 ēdienreizēs.</p>`;
+  const t = addD(now,1), tp = dayPos(t);
+  $('td-tom-title').hidden = false;
+  if(tp.wi >= PLAN.N){ $('td-tom').innerHTML = ''; $('td-tom-title').hidden = true; return; }
+  $('td-tom-title').textContent = 'Rīt · ' + DAYN[tp.d].toLowerCase();
+  const ts = schedule(tp.d, PLAN.weeks[tp.wi].days[tp.d]);
+  $('td-tom').innerHTML = ts.length ? ts.map(x=>`<div class="mini ${x.cls}"><div class="k"><span>${x.start!==null?fmtM(x.start)+' · ':''}${esc(x.label)}</span><span>${x.min?hm(x.min):''}</span></div></div>`).join('') : '<p class="muted">Atpūta.</p>';
+}
+function renderWeek(){
+  const W = PLAN.weeks[WK]; const sel = $('wk-sel'); sel.value = WK;
+  $('wk-title').textContent = `${W.n}. nedēļa`;
+  $('wk-phase').textContent = PH[W.phase]; $('wk-rec').hidden = !W.rec;
+  const by = c => W.days.flat().filter(x=>x.cls===c && !x.opt).reduce((a,x)=>a+x.min,0);
+  const tot = W.days.flat().filter(x=>!x.opt).reduce((a,x)=>a+x.min,0);
+  const parts = [['swim','Peld.'],['bike','Velo'],['run','Skr.']].filter(([c])=>by(c)).map(([c,l])=>`<span class="c-${c}">${l} ${hm(by(c))}</span>`).join(' · ');
+  $('wk-meta').innerHTML = `${fmtD(W.start)} – ${fmtD(addD(W.start,6))} · kopā <span class="mono">${hm(tot)}</span>${parts?' · '+parts:''}`;
+  const todayPos = dayPos(new Date());
+  $('wk-days').innerHTML = W.days.map((d,i)=>{
+    const ss = schedule(i, d);
+    return `<article class="day${todayPos.wi===WK && todayPos.d===i?' today':''}"><div class="dh"><h3>${DAYN[i]}</h3><span class="eyebrow">${fmtD(addD(W.start,i))}</span></div>${ss.length ? ss.map(x=>`<div class="mini ${x.cls}"><div class="k"><span class="c-${x.cls}">${esc(x.label)}</span><span>${x.start!==null?fmtM(x.start)+' · ':''}${x.min?hm(x.min):''}${x.opt?' · pēc izvēles':''}</span></div><p>${x.txt}</p></div>`).join('') : '<p class="muted" style="font-size:14px">Atpūta</p>'}</article>`;
+  }).join('');
+}
+function renderOverview(){
+  const {phases, N, H} = PLAN;
+  $('ov-lead').textContent = `${N} nedēļas no ${fmtD(PLAN.start)} līdz startam. Maksimālā slodze ~${(Math.round(H*PLAN.peak*10)/10).toLocaleString('lv-LV')} h nedēļā, apjoms aug ne vairāk kā par 10 % nedēļā, katra 4. nedēļa ir vieglāka.` + (PLAN.note.length ? ' ' + PLAN.note.join(' ') : '');
+  const max = Math.max(...PLAN.weeks.map(w=>w.mins));
+  const cw = curWeekIdx();
+  $('ov-bars').innerHTML = PLAN.weeks.map(w=>`<button class="bar p-${w.phase}${w.rec?' rec':''}${w.i===cw?' cur':''}" style="height:${Math.max(6, w.mins/max*140)}px;${w.extra?'box-shadow:inset 0 3px 0 var(--race);':''}" title="${w.n}. ned. · ${hm(w.mins)}${w.extra?' · starts '+w.extra.join(', '):''}" aria-label="${w.n}. nedēļa, ${hm(w.mins)}${w.extra?', sacensības':''}" data-w="${w.i}"></button>`).join('');
+  $('ov-bars').querySelectorAll('.bar').forEach(b=>b.onclick=()=>{ WK = +b.dataset.w; location.hash = 'nedela'; renderWeek(); });
+  let k = 0;
+  $('ov-phases').innerHTML = ['base','build','spec','taper'].filter(p=>phases[p]>0).map(p=>{
+    const a = k+1, b = k+phases[p]; k = b;
+    return `<div class="ph p-${p}"><span class="eyebrow">${a===b?a:a+'–'+b}. ned.</span><h3>${PH[p]}</h3><p class="muted" style="font-size:14px">${PHTXT[p]}</p></div>`;
+  }).join('');
+  const se = PLAN.season||[];
+  $('ov-season').hidden = !se.length;
+  const aRow = `<tr><td class="num">${fmtLong(ymd(PLAN.raceDay))}</td><td><b>${esc(P.name||PLAN.D.label)}</b></td><td><span class="pri">A</span></td><td class="num">${PLAN.N}.</td><td>Galvenās sacensības</td></tr>`;
+  $('ov-season-rows').innerHTML = se.filter(r=>r.wi!==null).map(r=>`<tr><td class="num">${fmtLong(r.date)}</td><td>${esc(r.n)}${r.km?`<br><span class="muted" style="font-size:13px">${esc(r.km)}</span>`:''}</td><td><span class="pri">${r.pri}</span></td><td class="num">${r.wi+1}.</td><td>${r.status ? esc(r.status) : r.pri==='B' ? '2 dienas atslodze, 2 dienas atjaunošanās' : 'Aizstāj dienas treniņu'}</td></tr>`).join('') + aRow + se.filter(r=>r.wi===null).map(r=>`<tr class="muted"><td class="num">${fmtLong(r.date)}</td><td>${esc(r.n)}</td><td><span class="pri">${r.pri}</span></td><td class="num">–</td><td>${esc(r.status)}</td></tr>`).join('');
+  const ftp = +P.ftp, lthr = +P.lthr;
+  const Z = [['Z1','1–2','<56%','<85%','Iesildīšanās, atjaunošanās',0,.55,0,.84],['Z2','3–4','56–75%','85–89%','Lielākā daļa treniņu',.56,.75,.85,.89],['Z3','5–6','76–87%','90–94%','Tempo',.76,.87,.9,.94],['Z4','7–8','94–105%','95–100%','Slieksnis',.94,1.05,.95,1],['Z5','9','>106%','>100%','Īsi paātrinājumi',1.06,0,1.01,0]];
+  $('ov-zones').innerHTML = Z.map(z=>`<tr><td><b>${z[0]}</b></td><td class="num">${z[1]}/10</td><td class="num">${z[2]}${ftp?` · ${z[5]?Math.round(z[5]*ftp):''}${z[6]?'–'+Math.round(z[6]*ftp):'+'} W`:''}</td><td class="num">${z[3]}${lthr?` · ${z[7]?Math.round(z[7]*lthr):''}${z[8]?'–'+Math.round(z[8]*lthr):'+'} bpm`:''}</td><td>${z[4]}</td></tr>`).join('');
+  $('ov-zones-note').textContent = (ftp||lthr) ? 'Vati un pulss aprēķināti no profilā ievadītā FTP un laktāta sliekšņa.' : 'Ievadi profilā FTP un laktāta slieksni (vai veic testus 1. nedēļā), lai redzētu savus vatus un pulsu.';
+}
+function renderNutrition(){
+  const kg = +P.weight || 75, D = PLAN.D;
+  $('nu-lead').textContent = `Aprēķināts ${kg} kg svaram. Vieglās dienās mazāk ogļhidrātu, garās dienās vairāk.`;
+  const W = PLAN.weeks[curWeekIdx()];
+  const ex = {};
+  W.days.forEach((d,i)=>{ const b = carbBand(sumMin(d))[2]; if(!ex[b]) ex[b] = DAYN[i]; });
+  $('nu-days').innerHTML = [[3,5,'Viegla','< 45 min'],[5,7,'Vidēja','45 min – 2 h'],[6,8,'Gara','2–4 h'],[8,10,'Ļoti gara','> 4 h']].map(r=>`<tr><td><b>${r[2]}</b><br><span class="muted" style="font-size:13px">${r[3]}</span></td><td>${ex[r[2]]||'–'}</td><td class="num">${r[0]}–${r[1]} g/kg<br>${Math.round(r[0]*kg)}–${Math.round(r[1]*kg)} g</td><td class="num">1,6–2,0 g/kg<br>${Math.round(1.6*kg)}–${Math.round(2*kg)} g</td></tr>`).join('');
+  const items = [];
+  if(D.load) items.push(`2 dienas pirms: ogļhidrātu uzpilde 8–10 g/kg dienā (${8*kg}–${10*kg} g), mazāk šķiedrvielu.`);
+  else items.push('Dienu pirms: ierasts ēdiens ar nedaudz vairāk ogļhidrātu, nekā jauna.');
+  items.push(`3 h pirms starta: 1–3 g/kg ogļhidrātu (${kg}–${3*kg} g), 500 ml šķidruma.`);
+  items.push(`Sacensību laikā: ${D.fuel} ogļhidrātu.`);
+  items.push('Izmanto tikai to, ko esi izmēģinājis garajos treniņos. Noskaidro, kas būs trases ēdināšanas punktos.');
+  $('nu-race').innerHTML = items.map(t=>`<li>${t}</li>`).join('');
+}
+function renderPrep(){
+  const wLeft = Math.max(0, Math.ceil((PLAN.raceDay - dOnly(new Date()))/864e5/7));
+  $('pr-lead').textContent = `Līdz startam ${wLeft} nedēļas. Atzīmēti soļi, kas jau ir laikā.`;
+  const D = PLAN.D, tri = D.sport==='tri', ultra = D.sport==='ultra', swim = D.sport==='swim';
+  const L = [
+    [16,'Reģistrējies sacensībām un rezervē naktsmītni ar bezmaksas atcelšanu.'],
+    [12,'Ieplāno ceļu. Ja brauc ar velo, izvēlies velo somu vai transportu.'],
+    [8, 'Sāc trenēt sacensību ēdienu garajos treniņos: tie paši gēli un dzērieni.'],
+    ...(ultra ? [[14,'Pārbaudi, vai sacensībām vajag kvalifikāciju (ITRA punkti, UTMB Running Stones) un medicīnisko izziņu.']] : []),
+    [6, tri ? 'Atklātais ūdens ar hidrotērpu, ja vien iespējams. Pārbaudi, vai hidrotērps der.' : swim ? 'Peldi atklātā ūdenī vismaz reizi nedēļā: navigācija, starts pūlī, auksts ūdens. Pārbaudi hidrotērpu.' : ultra ? 'Obligātais ekipējums: pārbaudi sarakstu (lukturis, jaka, ūdens, folija) un skrien garajos treniņos ar pilnu mugursomu.' : 'Izmēģini sacensību apavus un apģērbu garajā treniņā.'],
+    [4, 'Ekipējuma apkope: velo serviss, jaunas riepas vai apavi, ja vajag.'],
+    [2, 'Tapering sākas. Gulēt 8+ h, nekādu jaunu treniņu vai ēdienu.'],
+    [1, 'Iepako somu pēc saraksta, izdrukā sacensību grafiku, pārbaudi starta numura saņemšanas laiku.']
+  ];
+  $('pr-list').innerHTML = L.map(([w,t])=>{ const due = wLeft <= w; return `<li><span class="when">${w} ned. pirms</span><span${due?'':' class="muted"'}>${due?'<b>Tagad: </b>':''}${t}</span></li>`; }).join('');
+  const tz = +P.tz || 0, temp = +P.temp;
+  const pl = [];
+  if(Math.abs(tz) >= 2) pl.push(`Laika starpība ${tz>0?'+':''}${tz} h. Ieradies vismaz ${Math.min(5, Math.abs(tz))} dienas pirms starta vai pakāpeniski pārbīdi miegu jau mājās.`);
+  else pl.push('Laika starpība ir maza: pietiek ierasties 1–2 dienas pirms starta.');
+  if(temp >= 24) pl.push(`Gaidāmi ${temp} °C. 10–14 dienas pirms starta trenējies siltākā laikā vai siltās telpās, dzer vairāk un ņem vairāk nātrija.`);
+  else if(temp && temp <= 12) pl.push(`Gaidāmi ${temp} °C. Paņem siltu apģērbu startam un velo posmam.`);
+  else pl.push('Temperatūra ir ierasta: īpaša pielāgošanās nav vajadzīga.');
+  if(tri || swim) pl.push('Pārbaudi sacensību noteikumus par hidrotērpu: tie ir atkarīgi no ūdens temperatūras.');
+  if(ultra) pl.push('Kalnos laiks mainās ātri: siltā un aukstā ekipējuma komplekts, lukturis ar rezerves baterijām nakts posmam. Iepazīsti kontrollaikus.');
+  const rx = RACES.find(r=>r.id===P.raceId); if(rx && rx.nt) pl.push(esc(rx.nt));
+  pl.push(`Vieta: ${esc(P.place||'nav norādīta')}. ${tri ? 'Iepazīsti trasi un pārejas zonu dienu pirms starta.' : 'Iepazīsti trasi un starta vietu dienu pirms starta.'}`);
+  $('pr-place').innerHTML = pl.map(t=>`<li>${t}</li>`).join('');
+}
+function fillWeekSel(){ $('wk-sel').innerHTML = PLAN.weeks.map(w=>`<option value="${w.i}">${w.n}. ned. · ${fmtD(w.start)}</option>`).join(''); }
+
+// ---------- kalendārs ----------
+function allEvents(){
+  const ev = [];
+  PLAN.weeks.forEach(W=>W.days.forEach((d,di)=>{
+    const date = addD(W.start, di);
+    schedule(di, d).forEach(x=>{
+      if(x.start===null){ ev.push({title:x.label, date, allDay:true, desc:x.txt}); return; }
+      ev.push({title:x.label + (x.opt?' (pēc izvēles)':''), date, s:x.start, e:x.end, desc:x.txt.replace(/<[^>]+>/g,''), loc: x.type==='race' ? (x.pl ?? P.place ?? '') : ''});
+    });
+  }));
+  return ev;
+}
+function csvCell(v){ v = String(v??''); return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; }
+function toCSV(){
+  const us = d => `${pad(d.getMonth()+1)}/${pad(d.getDate())}/${d.getFullYear()}`;
+  const t12 = m => { const h = Math.floor(m/60)%24, mm = m%60; return `${((h+11)%12)+1}:${pad(mm)} ${h<12?'AM':'PM'}`; };
+  const rows = [['Subject','Start Date','Start Time','End Date','End Time','All Day Event','Description','Location']];
+  allEvents().forEach(e=>rows.push([e.title, us(e.date), e.allDay?'':t12(e.s), us(e.allDay?e.date:addD(e.date, Math.floor(e.e/1440))), e.allDay?'':t12(e.e%1440), e.allDay?'True':'False', e.desc, e.allDay ? (P.place||'') : (e.loc||'')]));
+  return rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+}
+function toICS(){
+  const d8 = d => `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+  const tm = m => `${pad(Math.floor(m/60)%24)}${pad(m%60)}00`;
+  const escI = s => String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+  const L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Gatavs Startam//LV','CALSCALE:GREGORIAN'];
+  allEvents().forEach((e,i)=>{
+    L.push('BEGIN:VEVENT', `UID:gs-${d8(e.date)}-${i}@gatavs-startam`, `DTSTAMP:${d8(new Date())}T000000Z`);
+    if(e.allDay){ L.push(`DTSTART;VALUE=DATE:${d8(e.date)}`, `DTEND;VALUE=DATE:${d8(addD(e.date,1))}`); }
+    else { L.push(`DTSTART:${d8(e.date)}T${tm(e.s)}`, `DTEND:${d8(addD(e.date, Math.floor(e.e/1440)))}T${tm(e.e%1440)}`); }
+    L.push(`SUMMARY:${escI(e.title)}`, `DESCRIPTION:${escI(e.desc)}`);
+    if(e.loc) L.push(`LOCATION:${escI(e.loc)}`);
+    L.push('END:VEVENT');
+  });
+  L.push('END:VCALENDAR');
+  return L.join('\r\n');
+}
+let downloads = null;
+(async()=>{ try{ downloads = window.claude?.use ? await window.claude.use('downloads') : null; }catch(e){ downloads = null; } })();
+// Claude artefaktā izmanto tā lejupielādi; parastā mājaslapā – pārlūka lejupielādi.
+async function saveFile(filename, blob){
+  if(downloads) return downloads.save({filename, data: blob});
+  const url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+}
+async function doSave(filename, blob, okMsg){
+  const st = $('cal-status');
+  try{ await saveFile(filename, blob); st.textContent = okMsg; }
+  catch(e){ st.textContent = e && e.code==='declined' ? 'Lejupielāde atcelta.' : 'Neizdevās saglabāt failu. Izmanto .ics teksta kopēšanu.'; }
+}
+$('cal-csv').onclick = ()=>doSave('treninu-plans.csv', new Blob(['\ufeff' + toCSV()], {type:'text/csv'}), 'CSV fails saglabāts. Google kalendārā: Iestatījumi → Importēšana un eksportēšana.');
+$('cal-icsf').onclick = ()=>doSave('treninu-plans.ics', new Blob([toICS()], {type:'text/calendar'}), '.ics fails saglabāts. Atver to, un kalendārs piedāvās pievienot treniņus.');
+$('cal-ics').onclick = async ()=>{
+  const txt = toICS(), ta = $('cal-text'), st = $('cal-status');
+  ta.value = txt; ta.hidden = false;
+  try{ await navigator.clipboard.writeText(txt); st.textContent = '.ics teksts nokopēts. Ielīmē to failā ar paplašinājumu .ics un atver kalendārā.'; }
+  catch(e){ ta.focus(); ta.select(); st.textContent = 'Nevarēja nokopēt automātiski: teksts ir iezīmēts zemāk, nokopē to pats.'; }
+};
+
+// ---------- forma ----------
+const FMAP = {dist:'f-dist',name:'f-name',date:'f-date',time:'f-time',place:'f-place',tz:'f-tz',temp:'f-temp',age:'f-age',sex:'f-sex',weight:'f-weight',height:'f-height',level:'f-level',hours:'f-hours',inj:'f-inj',slot:'f-slot',cross:'f-cross',ftp:'f-ftp',lthr:'f-lthr',am:'f-am',pm:'f-pm',we:'f-we'};
+function fillForm(){
+  $('f-dist').innerHTML = Object.keys(SPORTN).map(sp=>`<optgroup label="${SPORTN[sp]}">` + Object.entries(DIST).filter(([k,v])=>v.sport===sp).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('') + '</optgroup>').join('');
+  Object.entries(FMAP).forEach(([k,id])=>{ $(id).value = P[k] ?? ''; });
+  if(!P.hours){ const D = DIST[P.dist]; $('f-hours').value = D.hours[1]; }
+  const rs = new Set((P.rest||[]).map(Number));
+  $('f-rest').innerHTML = DAYN.map((n,i)=>`<label><input type="checkbox" value="${i}"${rs.has(i)?' checked':''}>${n}</label>`).join('');
+  $('f-health').checked = !!P.health;
+  slotUI(); crossUI();
+  const rx = RACES.find(r=>r.id===P.raceId && r.d===P.dist);
+  fillRegions(rx ? rx.r : (P.region||''));
+  fillRaces(rx ? rx.id : '');
+}
+
+// ---------- sacensību izvēle ----------
+const fmtLong = s => new Date(s+'T12:00').toLocaleDateString('lv-LV',{day:'numeric',month:'short',year:'numeric'});
+function racesFor(dist){ const today = ymd(new Date()); return RACES.filter(x=>x.d===dist && (!x.date || x.date >= today)).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')); }
+function fillRegions(keep){
+  const list = racesFor($('f-dist').value);
+  const regs = Object.keys(REG).filter(r=>list.some(x=>x.r===r));
+  $('f-region').innerHTML = `<option value="">Visi reģioni</option>` + regs.map(r=>`<option value="${r}">${REG[r]} (${list.filter(x=>x.r===r).length})</option>`).join('');
+  $('f-region').value = regs.includes(keep) ? keep : '';
+  $('f-region').disabled = !regs.length;
+}
+function fillRaces(keepId){
+  const reg = $('f-region').value;
+  const list = racesFor($('f-dist').value).filter(x=>!reg || x.r===reg);
+  $('f-race').innerHTML = `<option value="">${list.length ? 'Ievadīšu pats' : 'Sarakstā nav, ievadi pats'}</option>` + list.map(x=>`<option value="${esc(x.id)}">${x.date ? fmtLong(x.date) : x.month + ', datums vēl nav zināms'} · ${esc(x.n)} · ${esc(raceKm(x))}</option>`).join('');
+  $('f-race').value = list.some(x=>x.id===keepId) ? keepId : '';
+  raceInfo();
+}
+function raceInfo(){
+  const x = RACES.find(r=>r.id===$('f-race').value);
+  const el = $('f-race-info');
+  if(!x){ el.textContent = 'Izvēlies sacensības no saraksta, lai aizpildītu datumu, laiku un vietu, vai ievadi tos pats.' + (CAT.updated ? ` Saraksts atjaunots ${fmtLong(CAT.updated)}.` : ' Sacensību saraksts nav ielādēts.'); return; }
+  const [sn, su] = SRC[x.s];
+  const parts = [`<b>${esc(x.n)}: ${esc(raceKm(x))}.</b>`];
+  parts.push(x.date ? (x.e ? '<b>Datums aprēķināts pēc iepriekšējā gada</b> (tā pati nedēļas diena), apstiprinājuma vēl nav.' : x.ok ? 'Datums no kalendāra.' : '<b>Datums vēl nav apstiprināts</b>, pārbaudi pirms reģistrācijas.') : `<b>2027. gada datums vēl nav izziņots</b> (parasti ${x.month}), ievadi to pats, kad zināms.`);
+  parts.push(x.time && x.tOk ? 'Starta laiks no organizatora.' : x.time ? 'Starta laiks aptuvens (pēc iepriekšējiem gadiem), pārbaudi.' : 'Starta laiks nav zināms, ielikts 07:00, nomaini to.');
+  parts.push('Temperatūra ir tipiskā, aptuvena.');
+  if(x.nt) parts.push(esc(x.nt));
+  el.innerHTML = parts.join(' ') + ` Avots: <a href="${su}" target="_blank" rel="noopener">${esc(sn)}</a>. Visus laukus vari labot.`;
+}
+function applyRace(){
+  const x = RACES.find(r=>r.id===$('f-race').value);
+  raceInfo();
+  if(!x) return;
+  $('f-name').value = x.n;
+  $('f-date').value = x.date || '';
+  $('f-time').value = x.time || '07:00';
+  $('f-place').value = x.pl;
+  $('f-tz').value = x.tz;
+  $('f-temp').value = x.temp;
+}
+// ---------- sezonas sacensības ----------
+const serDist = n => n.split(' · ').pop();
+function exSnapshot(x, pri){ return {id:x.id, n:x.n, d:x.d, km:raceKm(x), date:x.date, time:x.time||'10:00', pl:x.pl||'', du:x.du||'', e:x.e?1:0, pri}; }
+function saveExtras(msg){ P.example = false; saveProfile(P); rebuild(); renderExList(); $('ex-status').textContent = msg||''; }
+function renderExList(){
+  const ex = (P.extra||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const rows = (PLAN.season||[]);
+  $('ex-list').innerHTML = ex.length ? ex.map(x=>{ const r = rows.find(r=>r.id===x.id && r.date===x.date) || {}; return `<div class="exitem p${x.pri}">
+    <span class="when">${fmtLong(x.date)}${x.e?' *':''}</span>
+    <span class="nm">${esc(x.n)}<small>${esc(x.km||'')}${x.pl?' · '+esc(x.pl):''}</small></span>
+    <select data-pri="${esc(x.id)}" aria-label="Prioritāte"><option value="B"${x.pri==='B'?' selected':''}>B</option><option value="C"${x.pri==='C'?' selected':''}>C</option></select>
+    <span style="display:flex;gap:4px"><button type="button" class="btn" style="padding:4px 8px;font-size:13px" data-main="${esc(x.id)}" title="Padarīt par galvenajām sacensībām (A)">A</button><button type="button" class="btn" style="padding:4px 8px;font-size:13px" data-del="${esc(x.id)}" aria-label="Noņemt">×</button></span>
+    ${r.status?`<span class="warn">${esc(r.status)}</span>`:''}</div>`; }).join('') + (ex.some(x=>x.e) ? '<p class="note">* datums aprēķināts pēc iepriekšējā gada.</p>' : '') : '<p class="note">Vēl nav pievienotu sacensību.</p>';
+  $('ex-list').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{ P.extra = P.extra.filter(x=>x.id!==b.dataset.del); saveExtras('Noņemts.'); });
+  $('ex-list').querySelectorAll('[data-pri]').forEach(sel=>sel.onchange=()=>{ const x = P.extra.find(x=>x.id===sel.dataset.pri); if(x){ x.pri = sel.value; saveExtras('Prioritāte mainīta.'); } });
+  $('ex-list').querySelectorAll('[data-main]').forEach(b=>b.onclick=()=>makeMain(b.dataset.main));
+}
+function makeMain(id){
+  const x = (P.extra||[]).find(e=>e.id===id); if(!x) return;
+  const cat = RACES.find(r=>r.id===id);
+  const old = RACES.find(r=>r.id===P.raceId);
+  P.extra = P.extra.filter(e=>e.id!==id);
+  if(P.date && !P.example) P.extra.push(old ? exSnapshot(old,'B') : {id:'manual:'+(P.name||'')+':'+P.date, n:P.name||DIST[P.dist].label, d:P.dist, km:DIST[P.dist].km, date:P.date, time:P.time, pl:P.place||'', du:P.dur||'', pri:'B'});
+  Object.assign(P, {dist:x.d, raceId: cat ? cat.id : '', region: cat ? cat.r : '', name:x.n, date:x.date, time:x.time||'10:00', place:x.pl||'', dur:x.du||''});
+  if(cat){ P.tz = cat.tz; P.temp = cat.temp; }
+  P.hours = P.hours || DIST[x.d].hours[1];
+  fillForm(); saveExtras(`${x.n} tagad ir galvenās sacensības (A).`);
+}
+function fillExtraUI(){
+  const today = ymd(new Date());
+  const sers = [...new Set(RACES.filter(r=>r.ser).map(r=>r.ser))];
+  $('ex-ser').innerHTML = sers.length ? sers.map(s=>`<option>${esc(s)}</option>`).join('') : '<option value="">Sēriju nav</option>';
+  const fillSD = ()=>{ const ds = [...new Set(RACES.filter(r=>r.ser===$('ex-ser').value).map(r=>serDist(r.n)))]; $('ex-serdist').innerHTML = ds.map(d=>{ const r = RACES.find(r=>r.ser===$('ex-ser').value && serDist(r.n)===d); const cnt = RACES.filter(q=>q.ser===$('ex-ser').value && serDist(q.n)===d).length; return `<option value="${esc(d)}">${esc(d)} · ${esc(raceKm(r))} · ${cnt} ${cnt===1?'starts':'posmi'}</option>`; }).join(''); };
+  $('ex-ser').onchange = fillSD; fillSD();
+  const all = RACES.filter(r=>r.date && r.date >= today).sort((a,b)=>a.date.localeCompare(b.date));
+  $('ex-race').innerHTML = '<option value="">Ievadīšu pats…</option>' + Object.keys(SPORTN).map(sp=>`<optgroup label="${SPORTN[sp]}">` + all.filter(r=>DIST[r.d] && DIST[r.d].sport===sp).map(r=>`<option value="${esc(r.id)}">${fmtLong(r.date)} · ${esc(r.n)} · ${esc(raceKm(r))}</option>`).join('') + '</optgroup>').join('');
+  $('ex-mdist').innerHTML = $('f-dist').innerHTML;
+  const tog = ()=>{ $('ex-manual').hidden = !!$('ex-race').value; }; $('ex-race').onchange = tog; tog();
+}
+$('ex-seradd').onclick = ()=>{
+  const ser = $('ex-ser').value, dn = $('ex-serdist').value, pri = $('ex-serpri').value, today = ymd(new Date());
+  const add = RACES.filter(r=>r.ser===ser && serDist(r.n)===dn && r.date && r.date >= today && r.id!==P.raceId && !(P.extra||[]).some(e=>e.id===r.id));
+  if(!add.length){ $('ex-status').textContent = 'Nav ko pievienot: visi posmi jau ir sarakstā vai ir galvenās sacensības.'; return; }
+  P.extra = (P.extra||[]).concat(add.map(r=>exSnapshot(r, pri)));
+  saveExtras(`Pievienoti ${add.length} posmi: ${ser} · ${dn}.`);
+};
+$('ex-add').onclick = ()=>{
+  const id = $('ex-race').value, pri = $('ex-pri').value;
+  if(id){
+    const r = RACES.find(r=>r.id===id); if(!r) return;
+    if(r.id===P.raceId){ $('ex-status').textContent = 'Šīs jau ir galvenās sacensības.'; return; }
+    if((P.extra||[]).some(e=>e.id===id)){ $('ex-status').textContent = 'Jau ir sarakstā.'; return; }
+    P.extra = (P.extra||[]).concat([exSnapshot(r, pri)]); saveExtras(`Pievienots: ${r.n}.`);
+  } else {
+    const n = $('ex-mname').value.trim(), date = $('ex-mdate').value, d = $('ex-mdist').value;
+    if(!n || !date){ $('ex-status').textContent = 'Ievadi nosaukumu un datumu.'; return; }
+    if(date < ymd(new Date())){ $('ex-status').textContent = 'Datums ir pagātnē.'; return; }
+    P.extra = (P.extra||[]).concat([{id:'manual:'+n+':'+date, n, d, km:DIST[d].km, date, time:$('ex-mtime').value||'10:00', pl:'', du:'', pri}]);
+    $('ex-mname').value = ''; saveExtras(`Pievienots: ${n}.`);
+  }
+};
+function slotUI(){ const v = $('f-slot').value; $('f-am').disabled = v==='pm'; $('f-pm').disabled = v==='am'; $('f-am').closest('label').style.opacity = v==='pm' ? .45 : 1; $('f-pm').closest('label').style.opacity = v==='am' ? .45 : 1; }
+$('f-slot').addEventListener('change', slotUI);
+function crossUI(){ const sp = DIST[$('f-dist').value].sport, tri = sp==='tri';
+  $('f-cross').disabled = tri;
+  $('f-cross-hint').textContent = tri ? 'triatlonā jau ir trīs sporta veidi' : sp==='bike' ? '"iekļaut": viegla skriešana kauliem' : sp==='swim' ? '"iekļaut": velo vai skriešana Z2' : '"iekļaut": velo vai peldēšana vieglā skrējiena vietā';
+  const o = $('f-cross').querySelector('option[value="opt"]'); o.textContent = sp==='swim' ? 'Pēc izvēles (svētdienās)' : sp==='tri' ? 'Neattiecas' : 'Pēc izvēles (tikai traumas gadījumā)';
+}
+$('f-dist').addEventListener('change', crossUI);
+$('f-region').addEventListener('change', ()=>fillRaces(''));
+$('f-race').addEventListener('change', applyRace);
+['f-name','f-date','f-time','f-place'].forEach(id=>$(id).addEventListener('input', ()=>{
+  const x = RACES.find(r=>r.id===$('f-race').value); if(!x) return;
+  const now = {['f-date']:$('f-date').value, ['f-place']:$('f-place').value};
+  if((x.date && now['f-date']!==x.date) || now['f-place']!==x.pl){ $('f-race-info').textContent = 'Dati mainīti ar roku, tie tiks saglabāti, kā ievadīti.'; }
+}));
+$('f-dist').addEventListener('change', ()=>{ const D = DIST[$('f-dist').value]; const lv = $('f-level').value; $('f-hours').value = D.hours[lv==='beg'?0:lv==='adv'?2:1]; fillRegions($('f-region').value); fillRaces(''); });
+$('prof').addEventListener('submit', e=>{
+  e.preventDefault();
+  const np = {};
+  Object.entries(FMAP).forEach(([k,id])=>{ np[k] = $(id).value; });
+  const st = $('f-status');
+  const rd = new Date(`${np.date}T${np.time||'08:00'}`);
+  if(!np.date || isNaN(rd)){ st.textContent = $('f-race').value ? 'Šīm sacensībām 2027. gada datums vēl nav zināms: ievadi to pats.' : 'Ievadi sacensību datumu.'; return; }
+  if(dOnly(rd) < dOnly(new Date())){ st.textContent = 'Datums ir pagātnē. Izvēlies nākotnes datumu.'; return; }
+  if(!(+np.weight > 0)){ st.textContent = 'Ievadi svaru, lai aprēķinātu uzturu.'; return; }
+  np.rest = [...$('f-rest').querySelectorAll('input:checked')].map(c=>+c.value);
+  if(np.rest.length > 4){ st.textContent = 'Atstāj vismaz 3 treniņu dienas nedēļā.'; return; }
+  np.health = $('f-health').checked;
+  np.raceId = $('f-race').value; np.region = $('f-region').value;
+  const rsel = RACES.find(r=>r.id===np.raceId); np.dur = rsel && rsel.du ? rsel.du : '';
+  np.extra = P.extra || [];
+  np.example = false;
+  P = np; const ok = saveProfile(P);
+  rebuild();
+  st.textContent = ok ? 'Saglabāts. Plāns pārrēķināts.' : 'Plāns pārrēķināts, bet šajā pārlūkā to nevar saglabāt.';
+});
+$('f-example').onclick = ()=>{ P = {...EXAMPLE, extra:[], date: defaultDate()}; try{ localStorage.removeItem('gs_profile'); }catch(e){} fillForm(); rebuild(); renderExList(); $('f-status').textContent = 'Piemērs atjaunots.'; };
+
+// ---------- navigācija ----------
+$('wk-prev').onclick = ()=>{ if(WK>0){ WK--; renderWeek(); } };
+$('wk-next').onclick = ()=>{ if(WK<PLAN.N-1){ WK++; renderWeek(); } };
+$('wk-sel').onchange = ()=>{ WK = +$('wk-sel').value; renderWeek(); };
+const VIEWS = ['sodien','nedela','parskats','uzturs','gatavosanas','kalendars','profils'];
+function route(){
+  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'sodien';
+  VIEWS.forEach(x=>{ $('v-'+x).hidden = x!==v; });
+  document.querySelectorAll('nav.tabs a').forEach(a=>{ if(a.dataset.v===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+}
+window.addEventListener('hashchange', route);
+
+function rebuild(){
+  PLAN = buildPlan(P); WK = curWeekIdx();
+  fillWeekSel(); renderBib(); tick(); renderToday(); renderWeek(); renderOverview(); renderNutrition(); renderPrep();
+  $('cal-info').textContent = `${allEvents().length} treniņi no ${fmtD(PLAN.start)} līdz ${fmtD(PLAN.raceDay)}, laiki: ${P.slot==='am' ? 'darba dienās tikai no rīta '+(P.am||'07:00') : P.slot==='pm' ? 'darba dienās tikai vakarā '+(P.pm||'18:30') : 'rīts '+(P.am||'07:00')+', vakars '+(P.pm||'18:30')}, brīvdienās ${P.we||'09:00'}.` + (downloads===null ? '' : '');
+}
+P = loadProfile();
+fillForm(); fillExtraUI();
+rebuild(); renderExList(); route();
+setInterval(tick, 1000);
+setInterval(renderToday, 5*60*1000);
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) renderToday(); });
+</script>
+
+</body></html>
