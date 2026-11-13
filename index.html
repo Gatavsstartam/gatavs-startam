@@ -205,6 +205,13 @@ form.prof label.ck input{margin-top:4px}
   <!-- NUTRITION -->
   <section class="view" id="v-uzturs" hidden>
     <h2>Uzturs pēc slodzes</h2>
+    <div class="card" id="nu-goal"></div>
+    <div class="card"><h3>Ēdienkarte</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="nu-dayb"></div>
+      <p id="nu-dayhead"></p>
+    </div>
+    <div class="grid2" id="nu-meals"></div>
+    <h3>Ogļhidrāti pēc slodzes</h3>
     <p class="muted" id="nu-lead"></p>
     <div class="tw"><table><thead><tr><th>Diena</th><th>Piemērs tavā plānā</th><th>Ogļhidrāti</th><th>Olbaltumvielas</th></tr></thead><tbody id="nu-days"></tbody></table></div>
     <div class="grid2">
@@ -216,7 +223,7 @@ form.prof label.ck input{margin-top:4px}
       </ul></div>
       <div class="card"><h3>Sacensību diena</h3><ul class="clean" id="nu-race"></ul></div>
     </div>
-    <p class="note">Vispārīgi ieteikumi, nevis dietologa vai ārsta konsultācija. Ja tev ir veselības problēmas, saskaņo uzturu ar speciālistu.</p>
+    <p class="note">Vispārīgi ieteikumi un aptuvenas uzturvērtības, nevis dietologa vai ārsta konsultācija. Ja tev ir veselības problēmas vai ir bijuši ēšanas traucējumi, kaloriju mērķus neizmanto un saskaņo uzturu ar speciālistu.</p>
   </section>
 
   <!-- PREP -->
@@ -270,6 +277,8 @@ form.prof label.ck input{margin-top:4px}
           <label for="f-sex">Dzimums<select id="f-sex"><option value="m">Vīrietis</option><option value="f">Sieviete</option></select></label>
           <label for="f-weight">Svars (kg)<input id="f-weight" type="number" min="35" max="180"></label>
           <label for="f-height">Augums (cm)<input id="f-height" type="number" min="130" max="220"></label>
+          <label for="f-goalw">Mērķa svars (kg)<span>pēc izvēles: svars uz startu</span><input id="f-goalw" type="number" min="35" max="180" step="0.5"></label>
+          <label for="f-diet">Ēšanas paradumi<select id="f-diet"><option value="omni">Ēdu visu</option><option value="veg">Veģetārs (ar olām un pienu)</option><option value="vegan">Vegāns</option></select></label>
           <label for="f-level">Pieredze<select id="f-level"><option value="beg">Iesācējs</option><option value="mid">Ar pieredzi</option><option value="adv">Pieredzējis</option></select></label>
           <label for="f-hours">Stundas nedēļā (maks.)<input id="f-hours" type="number" min="2" max="25" step="0.5"></label>
           <label for="f-cross">Alternatīvie treniņi<span id="f-cross-hint">citā sporta veidā</span><select id="f-cross"><option value="no">Nē, tikai savs sporta veids</option><option value="opt">Pēc izvēles</option><option value="yes">Iekļaut plānā</option></select></label>
@@ -594,7 +603,7 @@ const DIST = {
   ow10:   {km:'10 km+', sport:'swim', label:'Peldēšana atklātā ūdenī · 10 km+', sub:'maratona peldējums, 10 km un vairāk', taper:2, hours:[5,7,10], cap:{swim:210}, fuel:'30–60 g/h (ēdināšana no laivas vai pontona)', load:false, dur:[270,210,170]}
 };
 const SPORTN = {tri:'Triatlons', run:'Skriešana', ultra:'Taku skriešana un ultra', bike:'Riteņbraukšana', swim:'Peldēšana atklātā ūdenī'};
-const EXAMPLE = {slot:'both', cross:'opt', dist:'olympic', name:'Olimpiskā distance (piemērs)', date:'', time:'08:00', place:'Jūrmala, Latvija', tz:0, temp:20, age:35, sex:'m', weight:80, height:180, level:'mid', hours:8, ftp:'', lthr:'', am:'07:00', pm:'18:30', we:'09:00', rest:[0], inj:'none', health:false, example:true};
+const EXAMPLE = {slot:'both', cross:'opt', diet:'omni', goalw:'', dist:'olympic', name:'Olimpiskā distance (piemērs)', date:'', time:'08:00', place:'Jūrmala, Latvija', tz:0, temp:20, age:35, sex:'m', weight:80, height:180, level:'mid', hours:8, ftp:'', lthr:'', am:'07:00', pm:'18:30', we:'09:00', rest:[0], inj:'none', health:false, example:true};
 const lvlI = l => l==='beg' ? 0 : l==='adv' ? 2 : 1;
 const INJ = {
   leg:'Plāns pielāgots kāju traumai: skriešanas apjoms samazināts par 20 %, bez kalniem un sprinta pamatu un būvēšanas fāzē. Ja sāp, pārtrauc un konsultējies ar fizioterapeitu.',
@@ -607,6 +616,172 @@ const CAT = window.GS_CATALOG || {updated:'', SRC:{}, REG:{}, RACES:[]};
 const SRC = CAT.SRC, REG = CAT.REG;
 const RACES = (CAT.RACES||[]).map(x=>({...x, id: x.id || (x.d+':'+x.n)}));
 const raceKm = x => x.km || (DIST[x.d] && DIST[x.d].km) || '';
+// ---------- svara mērķis un ēdienkarte ----------
+// Uzturvērtības uz 100 g (aptuvenas): [kcal, olbaltumvielas, ogļhidrāti, tauki]; t: c=ogļhidrātu avots, p=olbaltumvielas, f=tauki, v=dārzeņi (nemainās); pc = grami vienā gabalā.
+const FOOD = {
+  auzas:['auzu pārslas',370,13,60,7,'c'], piens:['piens 1,5 %',45,3.3,4.8,1.5,'p'], augupiens:['auzu dzēriens',45,0.5,7,1.5,'c'],
+  ogas:['ogas',45,1,9,0.3,'v'], banans:['banāns',90,1.1,21,0.3,'c',120], abols:['ābols',52,0.3,14,0.2,'v',180],
+  biezpiens:['biezpiens 5 %',120,17,2,5,'p'], jogurts:['grieķu jogurts 2 %',75,10,4,2,'p'], kefirs:['kefīrs 2,5 %',52,3,4,2.5,'p'],
+  rupjmaize:['rupjmaize',220,6,42,1.5,'c'], ola:['ola',145,12.5,0.7,10,'p',55], siers:['siers',300,26,1,22,'f'],
+  tomats:['tomāts un gurķis',18,0.9,3.5,0.2,'v'], medus:['medus',304,0.3,82,0,'c'], riekstusv:['riekstu sviests',600,25,16,50,'f'],
+  rieksti:['mandeles vai rieksti',600,21,10,52,'f'], vista:['vistas fileja (gatava)',165,31,0,3.6,'p'], lasis:['lasis (gatavs)',206,22,0,13,'p'],
+  titars:['tītara gaļa (gatava)',135,29,0,2,'p'], liellops:['liellopa gaļa (gatava)',200,26,0,10,'p'], tofu:['tofu',145,15,3,9,'p'],
+  lecas:['lēcas (vārītas)',116,9,20,0.4,'p'], aunazirni:['aunazirņi (vārīti)',164,8.9,27,2.6,'p'], griki:['griķi (vārīti)',92,3.4,20,0.6,'c'],
+  risi:['rīsi (vārīti)',130,2.7,28,0.3,'c'], makaroni:['pilngraudu makaroni (vārīti)',150,6,30,1,'c'], kartupeli:['kartupeļi (vārīti)',80,2,18,0.1,'c'],
+  saldkart:['saldie kartupeļi',86,1.6,20,0.1,'c'], darzeni:['dārzeņi vai salāti',30,2.5,5,0.3,'v'], ella:['olīveļļa',884,0,0,100,'f'],
+  humuss:['humuss',250,8,14,18,'f'], kaposti:['skābēti kāposti',20,1,4,0,'v']
+};
+// Ēdienreižu varianti pa diētām: [nosaukums, [[produkts, grami]...]]
+const MEALS = {
+  b: {omni:[['Auzu putra ar ogām',[['auzas',70],['piens',250],['ogas',100],['rieksti',15]]],['Omlete ar rupjmaizi',[['ola',110],['siers',25],['rupjmaize',70],['tomats',150]]],['Biezpiens ar maizi un ogām',[['biezpiens',200],['rupjmaize',60],['ogas',100],['medus',10]]]],
+      veg:'omni',
+      vegan:[['Auzu putra ar riekstu sviestu',[['auzas',70],['augupiens',250],['ogas',100],['riekstusv',15]]],['Tofu kultenis ar maizi',[['tofu',150],['rupjmaize',70],['tomats',150],['ella',5]]],['Maize ar humusu un banāns',[['rupjmaize',80],['humuss',50],['banans',120],['tomats',100]]]]},
+  s1:{omni:[['Grieķu jogurts ar ābolu',[['jogurts',200],['abols',180]]],['Kefīrs un banāns',[['kefirs',300],['banans',120]]],['Rieksti un ābols',[['rieksti',25],['abols',180]]]],
+      veg:'omni',
+      vegan:[['Banāns ar riekstu sviestu',[['banans',120],['riekstusv',20]]],['Ābols un mandeles',[['abols',180],['rieksti',25]]],['Auzu dzēriens un banāns',[['augupiens',300],['banans',120]]]]},
+  l: {omni:[['Vista ar griķiem un dārzeņiem',[['vista',140],['griki',200],['darzeni',200],['ella',10]]],['Lasis ar kartupeļiem',[['lasis',130],['kartupeli',250],['darzeni',200]]],['Liellopa gaļa ar makaroniem',[['liellops',120],['makaroni',200],['darzeni',200],['ella',5]]]],
+      veg:[['Lēcu sautējums ar rīsiem',[['lecas',250],['risi',150],['darzeni',200],['ella',10]]],['Olas ar kartupeļiem un salātiem',[['ola',165],['kartupeli',250],['darzeni',200],['ella',5]]],['Aunazirņi ar griķiem un sieru',[['aunazirni',180],['griki',180],['siers',20],['darzeni',200]]]],
+      vegan:[['Aunazirņu kariju ar rīsiem',[['aunazirni',200],['risi',180],['darzeni',200],['ella',10]]],['Tofu ar makaroniem',[['tofu',180],['makaroni',200],['darzeni',200],['ella',5]]],['Lēcu sautējums ar kartupeļiem',[['lecas',250],['kartupeli',250],['darzeni',150],['ella',10]]]]},
+  s2:{omni:[['Rupjmaize ar humusu',[['rupjmaize',60],['humuss',40],['tomats',150]]],['Biezpiens ar ogām',[['biezpiens',150],['ogas',100]]],['Kefīrs un rupjmaize',[['kefirs',250],['rupjmaize',50]]]],
+      veg:'omni',
+      vegan:[['Rupjmaize ar humusu',[['rupjmaize',60],['humuss',40],['tomats',150]]],['Banāns un rieksti',[['banans',120],['rieksti',20]]],['Auzu batoniņš: auzas, banāns, medus',[['auzas',40],['banans',120],['medus',10]]]]},
+  d: {omni:[['Tītars ar saldajiem kartupeļiem',[['titars',140],['saldkart',250],['darzeni',200],['ella',10]]],['Lasis ar rīsiem un dārzeņiem',[['lasis',120],['risi',180],['darzeni',200]]],['Vista ar kartupeļiem un skābētiem kāpostiem',[['vista',140],['kartupeli',250],['kaposti',150],['ella',5]]]],
+      veg:[['Omlete ar dārzeņiem un maizi',[['ola',165],['darzeni',200],['rupjmaize',60],['siers',20]]],['Biezpiens ar kartupeļiem un salātiem',[['biezpiens',200],['kartupeli',250],['darzeni',150],['ella',5]]],['Lēcas ar griķiem',[['lecas',200],['griki',180],['darzeni',200],['ella',10]]]],
+      vegan:[['Tofu ar griķiem un dārzeņiem',[['tofu',180],['griki',200],['darzeni',200],['ella',10]]],['Lēcas ar saldajiem kartupeļiem',[['lecas',220],['saldkart',250],['darzeni',150],['ella',5]]],['Aunazirņi ar makaroniem',[['aunazirni',180],['makaroni',180],['darzeni',200],['ella',5]]]]}
+};
+const MEALN = {b:'Brokastis', s1:'Otrās brokastis', l:'Pusdienas', s2:'Otrās pusdienas', d:'Vakariņas'};
+const DIETN = {omni:'visēdājs', veg:'veģetārs', vegan:'vegāns'};
+const KCAL_PER_KG = 7700;
+
+function bmr(){ const kg=+P.weight||75, h=+P.height||175, a=+P.age||35; return 10*kg + 6.25*h - 5*a + (P.sex==='f' ? -161 : 5); }
+function sessKcal(x, kg){
+  if(x.opt) return 0;
+  const sp = PLAN.D.sport;
+  const hard = x.test || /_int|tempo|_ss|brick/.test(x.type);
+  const M = {swim:[7,9.5], bike:[6.8,9.5], run:[8.5,11], str:[4.5,5]};
+  let met = x.type==='mob' ? 2.5 : x.type==='race' ? ({tri:9,run:10,ultra:8,bike:8.5,swim:8})[sp]||9 : (M[x.cls]||M.run)[hard?1:0];
+  return Math.max(0, met-1) * 3.5 * kg / 200 * x.min; // virs pamatvielmaiņas
+}
+function dayEnergy(d){ const kg=+P.weight||75; return {tdee: bmr()*1.35 + d.reduce((a,x)=>a+sessKcal(x,kg),0), mins: sumMin(d), race: d.some(x=>x.type==='race'||x.type==='opener'||x.type==='recovery')}; }
+
+// Svara plāns: vidējais deficīts līdz tapering sākumam, ar drošības robežām.
+function weightPlan(){
+  const kg = +P.weight, goal = +P.goalw, h = (+P.height||175)/100;
+  if(!kg || !goal) return null;
+  const minGoal = Math.ceil(18.5*h*h);
+  const today = dOnly(new Date());
+  const tStart = (PLAN.weeks.find(w=>w.phase==='taper')||{start:PLAN.raceDay}).start;
+  const days = Math.max(0, Math.round((tStart - today)/864e5));
+  const wp = {kg, goal, minGoal, days, tStart, diff: kg-goal};
+  if(goal < minGoal){ wp.err = `Mērķis ${goal} kg ir zem veselīga svara (ĶMI 18,5 tavam augumam ir ~${minGoal} kg). Izvēlies vismaz ${minGoal} kg.`; return wp; }
+  if(Math.abs(wp.diff) < 0.5){ wp.mode='keep'; wp.avg=0; return wp; }
+  if(goal > kg){ wp.mode='gain'; wp.rate = Math.min(0.25, (goal-kg)/Math.max(1,days/7)); wp.avg = -wp.rate*KCAL_PER_KG/7; return wp; }
+  wp.mode='loss';
+  wp.cap = +(kg*0.007).toFixed(2);
+  wp.need = days>0 ? wp.diff/(days/7) : Infinity;
+  wp.rate = Math.min(wp.cap, wp.need);
+  wp.avg = wp.rate*KCAL_PER_KG/7;
+  return wp;
+}
+// Dienas mērķis: kcal un makro. Deficīts sadalīts pa nedēļu pēc slodzes.
+function dayTarget(W, di){
+  const wp = PLAN.wp, d = W.days[di], e = dayEnergy(d), base = bmr();
+  const kg = +P.weight||75, ref = wp && wp.mode==='loss' ? Math.max(wp.goal, kg*0.85) : kg;
+  let def = 0;
+  if(wp && !wp.err && wp.mode!=='keep'){
+    const dayDate = addD(W.start, di), today = dOnly(new Date());
+    const active = dayDate < wp.tStart && W.phase!=='taper' && !W.raceWeek;
+    if(wp.mode==='gain') def = active || dayDate >= today ? wp.avg : 0;
+    else if(active){
+      const f = x => x.race ? 0 : x.mins < 45 ? 1.2 : x.mins <= 120 ? 1 : x.mins <= 240 ? 0.7 : 0.4;
+      const fs = W.days.map(dd=>f(dayEnergy(dd))), sum = fs.reduce((a,b)=>a+b,0) || 1;
+      def = wp.avg*7*fs[di]/sum;
+      def = Math.min(def, e.tdee*0.25, e.tdee - base); // ne vairāk kā 25 % un ne zem pamatvielmaiņas
+      def = Math.max(0, def);
+    }
+  }
+  let kcal = Math.round((e.tdee - def)/10)*10;
+  const band = carbBand(e.mins);
+  const prot = Math.round((wp && wp.mode==='loss' ? 2.0 : 1.7) * ref);
+  let fat = Math.round(Math.max(0.8*ref, kcal*0.25/9));
+  let carb = Math.round((kcal - prot*4 - fat*9)/4);
+  const cMin = Math.round(band[0]*ref*(wp && wp.mode==='loss' ? 0.8 : 1));
+  if(carb < cMin){ fat = Math.max(Math.round(0.6*ref), Math.round((kcal - prot*4 - cMin*4)/9)); carb = Math.round((kcal - prot*4 - fat*9)/4); if(carb < cMin){ carb = cMin; kcal = prot*4 + fat*9 + carb*4; def = Math.max(0, e.tdee - kcal); } }
+  return {kcal, prot, fat, carb, def: Math.round(def), tdee: Math.round(e.tdee), mins: e.mins, band: band[2]};
+}
+function projectWeight(){
+  const wp = PLAN.wp; if(!wp || wp.err || wp.mode==='keep') return null;
+  const today = dOnly(new Date()); let kgNow = wp.kg; const pts = [];
+  PLAN.weeks.forEach((W,wi)=>{ let def = 0; W.days.forEach((d,di)=>{ if(addD(W.start,di) >= today) def += dayTarget(W,di).def; }); kgNow -= def/KCAL_PER_KG; pts.push({wi, start:W.start, kg:kgNow}); });
+  return pts;
+}
+// Ēdienkarte vienai dienai
+function mealPlan(W, di, variant){
+  const t = dayTarget(W, di), diet = P.diet || 'omni';
+  const ss = schedule(di, W.days[di]).filter(x=>!x.opt && x.start!==null && x.cls!=='str');
+  const firstT = ss.length ? Math.min(...ss.map(x=>x.start)) : null;
+  const when = firstT===null ? 'none' : firstT < 12*60 ? 'am' : 'pm';
+  const share = when==='am' ? {b:.20,s1:.15,l:.30,s2:.10,d:.25} : when==='pm' ? {b:.22,s1:.10,l:.28,s2:.15,d:.25} : {b:.25,s1:.10,l:.30,s2:.10,d:.25};
+  const hc = t.mins > 120 ? 1.25 : t.mins < 45 ? 0.85 : 1;
+  const note = {am:{b:'Pirms rīta treniņa: viegli sagremojams, vismaz 60 min pirms.', s1:'Pēc treniņa 30–60 min laikā: atjaunošanās.'}, pm:{s2:'1,5–2 h pirms vakara treniņa: ogļhidrāti, maz tauku.', d:'Pēc treniņa: olbaltumvielas un ogļhidrāti atjaunošanai.'}, none:{}}[when];
+  const out = Object.keys(MEALN).map((m,mi)=>{
+    let list = MEALS[m][diet]; if(typeof list==='string') list = MEALS[m][list];
+    const [name, items] = list[(di + W.i + mi + (variant||0)) % list.length];
+    const target = t.kcal*share[m];
+    const rows = items.map(([k,g])=>{ const F = FOOD[k]; return {k, F, g: F[5]==='c' ? g*hc : g}; });
+    const kc = r => r.F[1]*r.g/100;
+    // 1) olbaltumvielu produkti līdz dienas olbaltumvielu daļai, 2) ogļhidrāti un tauki līdz kaloriju mērķim
+    const pr = r => r.F[2]*r.g/100, of = t => rows.filter(r=>r.F[5]===t);
+    const pTarget = t.prot*share[m], pIn = of('p').reduce((a,r)=>a+pr(r),0), pOut = rows.filter(r=>r.F[5]!=='p').reduce((a,r)=>a+pr(r),0);
+    if(pIn > 0){ const sp = Math.max(0.5, Math.min(1.8, (pTarget - pOut)/pIn)); of('p').forEach(r=>r.g *= sp); }
+    const fixedK = rows.filter(r=>r.F[5]==='v'||r.F[5]==='p').reduce((a,r)=>a+kc(r),0), cf = rows.filter(r=>r.F[5]==='c'||r.F[5]==='f');
+    const cfK = cf.reduce((a,r)=>a+kc(r),0);
+    if(cfK > 0){ const sc = Math.max(0.4, Math.min(2.5, (target - fixedK)/cfK)); cf.forEach(r=>r.g *= sc); }
+    else if(pIn > 0){ const pk = of('p').reduce((a,r)=>a+kc(r),0), vk = of('v').reduce((a,r)=>a+kc(r),0); const s2 = Math.max(0.5, Math.min(2, (target - vk)/(pk||1))); of('p').forEach(r=>r.g *= s2); }
+    rows.forEach(r=>{ r.g = r.F[6] ? Math.max(1, Math.round(r.g/r.F[6]))*r.F[6] : Math.max(5, Math.round(r.g/5)*5); });
+    const sum = i => Math.round(rows.reduce((a,r)=>a+r.F[i]*r.g/100,0));
+    return {m, label:MEALN[m], name, rows, kcal:sum(1), p:sum(2), c:sum(3), f:sum(4), note:note[m]||''};
+  });
+  return {t, when, meals: out};
+}
+const fmtG = r => r.F[6] ? `${Math.round(r.g/r.F[6])} gab.` : `${r.g} g`;
+const nf = n => Math.round(n).toLocaleString('lv-LV');
+let NU_DAY = null, NU_VAR = 0;
+function renderWeightPlan(){
+  const wp = PLAN.wp, el = $('nu-goal');
+  if(!wp){ el.innerHTML = `<h3>Svara mērķis</h3><p class="muted">Ievadi profilā mērķa svaru, ja gribi līdz sacensībām nomest vai pieņemties svarā. Tad šeit būs kaloriju mērķis katrai dienai un ēdienkarte.</p><p><a href="#profils" class="btn">Uz profilu</a></p>`; return; }
+  if(wp.err){ el.innerHTML = `<h3>Svara mērķis</h3><p class="banner">${esc(wp.err)}</p>`; return; }
+  const pts = projectWeight(), atStart = pts ? pts.filter(p=>p.start < wp.tStart).slice(-1)[0] : null;
+  let head = '', body = '';
+  if(wp.mode==='keep'){ head = `Tavs svars ${nf(wp.kg)} kg jau ir mērķī.`; body = 'Kalorijas aprēķinātas svara noturēšanai.'; }
+  else if(wp.mode==='gain'){ head = `No ${nf(wp.kg)} kg līdz ${nf(wp.goal)} kg: +${(wp.diff*-1).toFixed(1).replace('.',',')} kg.`; body = `Lēns pieaugums ~${wp.rate.toFixed(2).replace('.',',')} kg nedēļā, ~${nf(-wp.avg)} kcal dienā virs patēriņa. Pieņemties svarā labāk ar spēka treniņiem un pietiekamām olbaltumvielām.`; }
+  else {
+    const endKg = atStart ? atStart.kg : wp.kg, reach = wp.need <= wp.cap;
+    const weeksNeed = Math.ceil(wp.diff/wp.cap);
+    head = `No ${nf(wp.kg)} kg līdz ${nf(wp.goal)} kg: −${wp.diff.toFixed(1).replace('.',',')} kg.`;
+    body = `<p>Līdz tapering sākumam (${fmtD(wp.tStart)}) ir ${Math.floor(wp.days/7)} nedēļas. ${reach ? `Mērķim pietiek ar ~${wp.rate.toFixed(2).replace('.',',')} kg nedēļā.` : `Lai to sasniegtu, būtu jāmet ${isFinite(wp.need)?wp.need.toFixed(1).replace('.',','):'vairāk nekā iespējams'} kg nedēļā, bet drošs temps sportistam ir līdz ~${wp.cap.toFixed(1).replace('.',',')} kg nedēļā (0,7 % svara). Plāns tur drošo tempu.`}</p>
+      <p>Vidējais deficīts ~${nf(wp.avg)} kcal dienā: lielāks vieglajās dienās, mazāks garo un smago treniņu dienās. Tapering un sacensību nedēļā deficīta nav, lai startētu ar pilnām enerģijas rezervēm.</p>
+      <p><b>Gaidāmais svars tapering sākumā: ~${endKg.toFixed(1).replace('.',',')} kg.</b> ${reach ? '' : `Līdz ${nf(wp.goal)} kg pie droša tempa vajag ~${weeksNeed} nedēļas: pēc sacensībām var turpināt.`}</p>`;
+  }
+  const tbl = pts && wp.mode!=='keep' ? `<div class="tw" style="border:0"><table><thead><tr><th>Nedēļa</th><th>Sākas</th><th>Gaidāmais svars</th></tr></thead><tbody>${pts.filter((p,i)=>i%4===0 || p.start>=wp.tStart && pts[i-1] && pts[i-1].start<wp.tStart).map(p=>`<tr><td class="num">${p.wi+1}.</td><td class="num">${fmtD(p.start)}</td><td class="num">${p.kg.toFixed(1).replace('.',',')} kg</td></tr>`).join('')}<tr><td class="num">Starts</td><td class="num">${fmtD(PLAN.raceDay)}</td><td class="num">${pts[pts.length-1].kg.toFixed(1).replace('.',',')} kg</td></tr></tbody></table></div>` : '';
+  el.innerHTML = `<h3>Svara mērķis</h3><p><b>${head}</b></p>${body.startsWith('<p>')?body:`<p>${body}</p>`}${tbl}<p class="note">Svēries reizi nedēļā no rīta. Ja svars krīt ātrāk par 1 kg nedēļā, treniņi kļūst smagi vai miegs pasliktinās, ēd vairāk. Aprēķins ir aptuvens: patēriņš atšķiras par ±10–15 %.${P.health ? ' Tu atzīmēji veselības problēmas: kaloriju mērķi saskaņo ar ārstu vai dietologu.' : ''}</p>`;
+}
+function renderMenu(){
+  const W = PLAN.weeks[curWeekIdx()];
+  const tp = dayPos(new Date());
+  if(NU_DAY===null || NU_DAY>6) NU_DAY = tp.wi===W.i ? tp.d : 0;
+  $('nu-dayb').innerHTML = W.days.map((_,i)=>`<button type="button" class="btn${i===NU_DAY?' primary':''}" data-nd="${i}" style="padding:6px 10px">${DAYN[i].slice(0,2)}</button>`).join('') + `<button type="button" class="btn" id="nu-var" style="padding:6px 10px">Cits variants</button>`;
+  $('nu-dayb').querySelectorAll('[data-nd]').forEach(b=>b.onclick=()=>{ NU_DAY=+b.dataset.nd; renderMenu(); });
+  $('nu-var').onclick = ()=>{ NU_VAR++; renderMenu(); };
+  const mp = mealPlan(W, NU_DAY, NU_VAR), t = mp.t;
+  const sess = W.days[NU_DAY].filter(x=>!x.opt && x.type!=='mob').map(x=>x.label+' '+hm(x.min)).join(', ') || 'atpūta';
+  const tot = mp.meals.reduce((a,m)=>({k:a.k+m.kcal,p:a.p+m.p,c:a.c+m.c,f:a.f+m.f}),{k:0,p:0,c:0,f:0});
+  $('nu-dayhead').innerHTML = `<b>${DAYN[NU_DAY]}, ${fmtD(addD(W.start,NU_DAY))}</b> · ${esc(sess)}<br>
+    Mērķis <b>${nf(t.kcal)} kcal</b> · olbaltumvielas ${t.prot} g · ogļhidrāti ${t.carb} g · tauki ${t.fat} g
+    <span class="muted">(patēriņš ~${nf(t.tdee)} kcal${t.def>0?`, deficīts ${nf(t.def)} kcal`:t.def<0?`, virs patēriņa ${nf(-t.def)} kcal`:''})</span>
+    <br><span class="muted" style="font-size:13px">Ēdienkartē kopā: ${nf(tot.k)} kcal · olbaltumvielas ${tot.p} g · ogļhidrāti ${tot.c} g · tauki ${tot.f} g. Treniņa laikā apēstie ogļhidrāti (želejas, dzērieni) nāk klāt.</span>`;
+  $('nu-meals').innerHTML = mp.meals.map(m=>`<div class="card" style="gap:6px"><div class="row"><h3>${m.label}</h3><span class="chip">${nf(m.kcal)} kcal · olb. ${m.p} g</span></div><p style="font-weight:600">${esc(m.name)}</p><ul class="clean">${m.rows.map(r=>`<li>${esc(r.F[0])}: ${fmtG(r)}</li>`).join('')}</ul>${m.note?`<p class="note">${m.note}</p>`:''}</div>`).join('');
+}
 const DAYN = ['Pirmdiena','Otrdiena','Trešdiena','Ceturtdiena','Piektdiena','Sestdiena','Svētdiena'];
 const PH = {base:'Pamati', build:'Būvēšana', spec:'Specifiskā', taper:'Tapering'};
 const PHTXT = {
@@ -641,6 +816,7 @@ function loadProfile(){
   if(!Array.isArray(p.extra)) p.extra = [];
   if(!['both','am','pm'].includes(p.slot)) p.slot = 'both';
   if(!['no','opt','yes'].includes(p.cross)) p.cross = 'opt';
+  if(!['omni','veg','vegan'].includes(p.diet)) p.diet = 'omni';
   if(!INJ[p.inj]) p.inj = 'none';
   p.health = !!p.health;
   return p;
@@ -1053,6 +1229,7 @@ function renderOverview(){
   $('ov-zones-note').textContent = (ftp||lthr) ? 'Vati un pulss aprēķināti no profilā ievadītā FTP un laktāta sliekšņa.' : 'Ievadi profilā FTP un laktāta slieksni (vai veic testus 1. nedēļā), lai redzētu savus vatus un pulsu.';
 }
 function renderNutrition(){
+  renderWeightPlan(); renderMenu();
   const kg = +P.weight || 75, D = PLAN.D;
   $('nu-lead').textContent = `Aprēķināts ${kg} kg svaram. Vieglās dienās mazāk ogļhidrātu, garās dienās vairāk.`;
   const W = PLAN.weeks[curWeekIdx()];
@@ -1157,7 +1334,7 @@ $('cal-ics').onclick = async ()=>{
 };
 
 // ---------- forma ----------
-const FMAP = {dist:'f-dist',name:'f-name',date:'f-date',time:'f-time',place:'f-place',tz:'f-tz',temp:'f-temp',age:'f-age',sex:'f-sex',weight:'f-weight',height:'f-height',level:'f-level',hours:'f-hours',inj:'f-inj',slot:'f-slot',cross:'f-cross',ftp:'f-ftp',lthr:'f-lthr',am:'f-am',pm:'f-pm',we:'f-we'};
+const FMAP = {dist:'f-dist',name:'f-name',date:'f-date',time:'f-time',place:'f-place',tz:'f-tz',temp:'f-temp',age:'f-age',sex:'f-sex',weight:'f-weight',height:'f-height',level:'f-level',hours:'f-hours',goalw:'f-goalw',diet:'f-diet',inj:'f-inj',slot:'f-slot',cross:'f-cross',ftp:'f-ftp',lthr:'f-lthr',am:'f-am',pm:'f-pm',we:'f-we'};
 function fillForm(){
   $('f-dist').innerHTML = Object.keys(SPORTN).map(sp=>`<optgroup label="${SPORTN[sp]}">` + Object.entries(DIST).filter(([k,v])=>v.sport===sp).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('') + '</optgroup>').join('');
   Object.entries(FMAP).forEach(([k,id])=>{ $(id).value = P[k] ?? ''; });
@@ -1323,7 +1500,7 @@ function route(){
 window.addEventListener('hashchange', route);
 
 function rebuild(){
-  PLAN = buildPlan(P); WK = curWeekIdx();
+  PLAN = buildPlan(P); PLAN.wp = weightPlan(); WK = curWeekIdx();
   fillWeekSel(); renderBib(); tick(); renderToday(); renderWeek(); renderOverview(); renderNutrition(); renderPrep();
   $('cal-info').textContent = `${allEvents().length} treniņi no ${fmtD(PLAN.start)} līdz ${fmtD(PLAN.raceDay)}, laiki: ${P.slot==='am' ? 'darba dienās tikai no rīta '+(P.am||'07:00') : P.slot==='pm' ? 'darba dienās tikai vakarā '+(P.pm||'18:30') : 'rīts '+(P.am||'07:00')+', vakars '+(P.pm||'18:30')}, brīvdienās ${P.we||'09:00'}.` + (downloads===null ? '' : '');
 }
