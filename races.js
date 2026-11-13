@@ -36,6 +36,7 @@ const SRC = {
   etape:['letapedutourdefrance.com','https://www.letapedutourdefrance.com/en/news/a-new-adventure-awaits-you-in-2027/191'],
   mdd:['tour-magazin.de','https://www.tour-magazin.de/en/event/everyman-race/maratona-dles-dolomites-2027-cycling-marathon-celebrates-its-40th-edition/'],
   vans:['visitdalarna.se (2025. gads)','https://visitdalarna.se/en/vansbro-swimming'],
+  vb:['organizatora dati (2026. gada programma)',''],
   lvm:['tautassports.lv (2026. gads)','https://tautassports.lv/en/events/lvm-mtb-gravel-marathon-2026-stage-5-smiltene/'],
   tuk:['ucigravelworldseries.com (2026. gads)','https://ucigravelworldseries.com/en/tukums/'],
   trm:['visitestonia.com','https://visitestonia.com/en/tartu-bike-marathon-2027'],
@@ -203,6 +204,7 @@ const RACES = [
   {d:'mtb1', r:'lv', n:'LVM MTB/Gravel 6. posms Cēsis · mammadaba MTB', ser:'LVM MTB un Gravel 2027', km:'15–33 km', date:'2027-09-26', e:1, pl:'Cēsis', time:'10:00', tz:0, temp:13, ok:0, s:'lvm', du:75, nt:'Veselības brauciens, vieglāka trase. 2026. gadā šis posms notika 27. septembrī. Precīzu garumu un starta laiku pārbaudi posma lapā.'},
   {d:'mtb2', r:'balt', n:'Tartu Rattamaraton · 86 km', km:'86 km', date:'2027-09-19', pl:'Otepē–Elva, Igaunija', tz:0, temp:14, ok:0, s:'trm', du:270, nt:'Klasiskais MTB maratons; pasākums notiek 18.–19. septembrī, distances dienu pārbaudi.'},
   {d:'mtb1', r:'balt', n:'Tartu Rattamaraton · 40 km', km:'40 km', date:'2027-09-19', pl:'Otepē–Elva, Igaunija', tz:0, temp:14, ok:0, s:'trm', du:130, nt:'Pasākums notiek 18.–19. septembrī, distances dienu pārbaudi.'},
+  {d:'gfs', r:'lv', n:'Vienības brauciens · tautas klase', km:'~47 km (šoseja)', date:'2027-09-05', e:1, pl:'Sigulda', time:'12:45', tz:0, temp:17, ok:0, s:'vb', du:95, nt:'Parasti septembra pirmajā svētdienā; 2026. gadā tautas klases starts 12:45. Ir arī garākas distances.'},
   // Gravel
   {d:'grv2', r:'lv', n:'Gravel Weekend Tukums · 140 km', km:'140 km', date:'2027-08-07', e:1, pl:'Tukums', tz:0, temp:21, ok:0, s:'tuk', du:330, nt:'UCI Gravel World Series posms (pasaules čempionāta kvalifikācija). 2026. gadā notika 8. augustā; paugurains reljefs ar īsiem kāpumiem.'},
   {d:'grv1', r:'lv', n:'Gravel Weekend Tukums · 75 km', km:'75 km', date:'2027-08-07', e:1, pl:'Tukums', tz:0, temp:21, ok:0, s:'tuk', du:180, nt:'2026. gadā notika 8. augustā.'},
